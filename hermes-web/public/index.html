@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base target="_blank">
+    <link rel="icon" type="image/ico" href="./assets/avaya.ico"/>
+    <script type="text/javascript" src="./vendor/angular/angular.js"></script>
+    <title>Node JS Express AngularJS MongoDB</title>
+
+</head>
+<body>
+<h2 class="md-headline"> Root Page</h2>
+<link rel="stylesheet" type="text/css" href="./assets/app.css"/>
+<script src="index.js"></script>
+<script type="text/javascript" src="./vendor/angular-ui-router/release/angular-ui-router.js"></script>
+<div class="bg-color-green">
+    <h2> Node JS - Express - MongoDB - AngularJS</h2>
+    <input ng-model="test">
+    <p>{{test}}</p>
+
+    <div ng-controller="AppCtrl" class="threshold-wizard">
+
+        <table class="widget__table vis-legend">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Имя</th>
+                <th>Возраст</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in artists" >
+                <td>{{item._id}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.age}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+</body>
+</html>
