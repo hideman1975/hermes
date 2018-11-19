@@ -1,4 +1,4 @@
-let app = angular.module('app', []);
+let app = angular.module('app', ['ngMaterial', 'ngMessages']);
 
 app.controller('AppCtrl', function($scope, $http) {
     $scope.editMode = false;

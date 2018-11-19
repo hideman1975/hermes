@@ -1,0 +1,54 @@
+.reporting_table {
+  width: 100%;
+  color: #3C5064;
+  overflow: hidden;
+  position: relative;
+  border: dotted 1px grey;
+}
+
+.reporting_table th{
+  border-bottom: dotted 1px grey;
+  background-color: grey;
+}
+
+.reporting_table caption {
+  color: #3C5064;
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+
+.reporting-table-row {
+  border-bottom: dotted 2px grey;
+  background-color: white;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.reporting-table-cells {
+  background: #c9f7fe;
+  color: #1A1A1A;
+  border-bottom: dotted 1px grey;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  cursor: default;
+  min-width: 80px;
+  max-width: 130px;
+}
+
+.reporting_table .reporting-table-header {
+  cursor: pointer;
+  min-width: 150px;
+  padding: 0.5em;
+}
+
+.reporting_table .table-header-text {
+  font-weight: bold !important;
+  max-width: 130px;
+  margin: 0 auto;
+  word-wrap: break-word;
+}
+
+.reporting_table th:focus {
+  outline: 0;
+}
+
