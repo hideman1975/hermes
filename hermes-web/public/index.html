@@ -27,19 +27,15 @@
 <script src="./vendor/angular/angular-messages.min.js"></script>
 <script src="./vendor/angular/angular-material.min.js"></script>
 
-<div class='container' >
-    <h2> Node JS - Express - MongoDB - AngularJS</h2>
-    <input ng-model="test">
-    <p>{{test}}</p>
-
+<div class='container'>
     <div ng-controller="AppCtrl" ng-cloak>
 
 
-        <md-content class="md-padding" layout-xs="column" layout="row">
+        <p class="md-padding" layout-xs="column" layout="row">
 
-            <table class='reporting_table'>
-                <caption>Sales department</caption>
-                <thead>
+        <table class='reporting_table'>
+            <caption>Sales department</caption>
+            <thead>
             <tr>
                 <th class="reporting-table-header">ID</th>
                 <th class="reporting-table-header">Имя</th>
@@ -48,35 +44,116 @@
             </tr>
             </thead>
             <tbody>
-            <tr class="reporting-table-row" ng-repeat="item in artists" >
+            <tr class="reporting-table-row" ng-repeat="item in artists">
                 <td class="reporting-table-cells ">{{item._id}}</td>
                 <td class="reporting-table-cells ">
-                    <span ng-hide = "item.editMode">{{item.name}}</span>
-                    <span ng-show = "item.editMode"><input ng-model="item.name" /></span>
+                    <span ng-hide="item.editMode">{{item.name}}</span>
+                    <span ng-show="item.editMode"><input ng-model="item.name"/></span>
                 </td>
                 <td class="reporting-table-cells " style="text-align: center">
-                    <span ng-hide = "item.editMode">{{item.price}}</span>
-                    <span ng-show = "item.editMode"><input ng-model="item.price" /></span>
+                    <span ng-hide="item.editMode">{{item.price}}</span>
+                    <span ng-show="item.editMode"><input ng-model="item.price"/></span>
                 </td>
                 <td class="reporting-table-cells " style="text-align: center">
                     <div style="padding-left: 10px">
-                        <span ng-hide = "item.editMode"><input  class="actions" type="button" value="Delete" ng-click="delete(item)" /></span>
-                        <span ng-hide = "item.editMode"><input style="float: left" type="button" value="Edit" ng-click = "edit(item)" /></span>
-                        <span ng-show = "item.editMode"><input style="float: left" type="button" value="Save" ng-click = "save(item)" /></span>
+                        <span ng-hide="item.editMode"><input class="actions" type="button" value="Delete"
+                                                             ng-click="delete(item)"/></span>
+                        <span ng-hide="item.editMode"><input style="float: left" type="button" value="Edit"
+                                                             ng-click="edit(item)"/></span>
+                        <span ng-show="item.editMode"><input style="float: left" type="button" value="Save"
+                                                             ng-click="save(item)"/></span>
                     </div>
                 </td>
             </tr>
+
             <tr>
+                <td>
+                    <md-button md-no-ink class="md-primary" ng-click="create(name, age)">ADD Person</md-button>
+                </td>
+                <td>
+                    <md-input-container>
+                        <input type="text" ng-model="name" placeholder="Name">
+                    </md-input-container>
+                </td>
+                <td>
+                    <md-input-container>
+                        <input type="text" ng-model="age" placeholder="Age">
+                    </md-input-container>
+                </td>
+              </tr>
 
-                <td><md-button md-no-ink class="md-primary" ng-click="create(name, age)" >ADD Person</md-button></td>
-                <td><label>Name</label> <input  required md-no-asterisk name="name" ng-model="name" /></td>
-                <td><label>Age</label><input  required md-no-asterisk name="age" ng-model="age" /></td>
-
-            </tr>
             </tbody>
         </table>
-        </md-content>>
-     </div>
+
+        <br/>
+        <p>
+        <table class='reporting_table'>
+            <caption>Orders</caption>
+            <thead>
+            <tr>
+                <th class="reporting-table-header">ID</th>
+                <th class="reporting-table-header">Product</th>
+                <th class="reporting-table-header">Order Name</th>
+                <th class="reporting-table-header">Quantity</th>
+                <th class="reporting-table-header">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="reporting-table-row" ng-repeat="item in orders">
+                <td class="reporting-table-cells ">{{item._id}}</td>
+                <td class="reporting-table-cells ">
+                    <span ng-hide="item.editMode">{{item.productName}}</span>
+                    <span ng-show="item.editMode"><input ng-model="item.product"/></span>
+                </td>
+                <td class="reporting-table-cells ">
+                    <span ng-hide="item.editMode">{{item.name}}</span>
+                    <span ng-show="item.editMode"><input ng-model="item.name"/></span>
+                </td>
+                <td class="reporting-table-cells " style="text-align: center">
+                    <span ng-hide="item.editMode">{{item.quantity}}</span>
+                    <span ng-show="item.editMode"><input ng-model="item.quantity"/></span>
+                </td>
+                <td class="reporting-table-cells " style="text-align: center">
+                    <div style="padding-left: 10px">
+                        <span ng-hide="item.editMode"><input class="actions" type="button" value="Delete"
+                                                             ng-click="deleteOrder(item)"/></span>
+                        <span ng-hide="item.editMode"><input style="float: left" type="button" value="Edit"
+                                                             ng-click="edit(item)"/></span>
+                        <span ng-show="item.editMode"><input style="float: left" type="button" value="Save"
+                                                             ng-click="saveOrder(item)"/></span>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <md-button ng-click="createOrder(product, name, quantity)">ADD Order
+                    </md-button>
+                </td>
+                <td>
+                    <md-input-container>
+                        <md-select ng-model="product">
+                            <md-option ng-value="opt._id" ng-repeat="opt in artists">{{ opt.name }}</md-option>
+                        </md-select>
+                    </md-input-container>
+                </td>
+                <td>
+                    <md-input-container>
+                        <input type="text" ng-model="name" placeholder="Name">
+                    </md-input-container>
+                </td>
+                <td>
+                    <md-input-container>
+                        <input type="text" ng-model="quantity" placeholder="Quantity">
+                    </md-input-container>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+        </p>
+
+    </div>
 
 </div>
 

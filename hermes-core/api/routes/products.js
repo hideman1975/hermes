@@ -8,14 +8,9 @@ router.get('/', (req, res, next) => {
     Product.find()
         .exec()
         .then(docs => {
-
-        // if (docs.length >=0){
             res.status(201).json(docs);
-        // } else {
-        //     res.status(404).json({message: 'No entries found'});}
-    }).catch(err => {
-        // console.log("From database", err);
-        res.status(500).json(err);
+        }).catch(err => {
+         res.status(500).json(err);
     });
 });
 //-------POST------------------------------------
