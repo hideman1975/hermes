@@ -4,7 +4,7 @@ let Schema = mongoose.Schema;
 
 let orderSchema = new Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    product: {type: mongoose.Schema.Types.ObjectId, ref: 'Product'},
+    product: {type: mongoose.Schema.Types.ObjectId, ref: 'Products'},
     quantity: {type: Number, default: 1},
     name: {type: String, required: true}
 }, {collection: 'orders'});

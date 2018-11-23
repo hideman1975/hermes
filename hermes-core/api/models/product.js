@@ -5,7 +5,8 @@ let Schema = mongoose.Schema;
 let productSchema = new Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: {type: String, required: true},
-    price: {type: Number, required: true}
+    price: {type: Number, required: true},
+    productImage: {type: String, required: true}
 }, {collection: 'products'});
 
 let UserData = mongoose.model('UserData', productSchema);

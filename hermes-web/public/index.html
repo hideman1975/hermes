@@ -29,8 +29,7 @@
 
 <div class='container'>
     <div ng-controller="AppCtrl" ng-cloak>
-
-
+<h2>{{counter.counter}}</h2>
         <p class="md-padding" layout-xs="column" layout="row">
 
         <table class='reporting_table'>
@@ -40,19 +39,26 @@
                 <th class="reporting-table-header">ID</th>
                 <th class="reporting-table-header">Имя</th>
                 <th class="reporting-table-header">Возраст</th>
+                <th class="reporting-table-header">Foto</th>
                 <th class="reporting-table-header">Actions</th>
             </tr>
             </thead>
-            <tbody>
-            <tr class="reporting-table-row" ng-repeat="item in artists">
-                <td class="reporting-table-cells ">{{item._id}}</td>
+
+        <tbody>
+        <tr class="reporting-table-row" ng-repeat="item in artists">
+            <form>
+            <td class="reporting-table-cells ">{{item._id}}</td>
                 <td class="reporting-table-cells ">
                     <span ng-hide="item.editMode">{{item.name}}</span>
-                    <span ng-show="item.editMode"><input ng-model="item.name"/></span>
+                    <span ng-show="item.editMode"><input type="text" ng-model="item.name" placeholder="Name"></span>
                 </td>
                 <td class="reporting-table-cells " style="text-align: center">
                     <span ng-hide="item.editMode">{{item.price}}</span>
-                    <span ng-show="item.editMode"><input ng-model="item.price"/></span>
+                    <span ng-show="item.editMode"><input type="text" ng-model="item.price" placeholder="Age"></span>
+                </td>
+                <td class="reporting-table-cells " style="text-align: center">
+                    <span ng-hide="item.editMode"><img class='image' src={{item.productImage}} alt={{item.productImage}}></span>
+                    <span ng-show="item.editMode"><input type="file" file-model="item.productImage"></span>
                 </td>
                 <td class="reporting-table-cells " style="text-align: center">
                     <div style="padding-left: 10px">
@@ -60,32 +66,44 @@
                                                              ng-click="delete(item)"/></span>
                         <span ng-hide="item.editMode"><input style="float: left" type="button" value="Edit"
                                                              ng-click="edit(item)"/></span>
-                        <span ng-show="item.editMode"><input style="float: left" type="button" value="Save"
-                                                             ng-click="save(item)"/></span>
+                        <span ng-show="item.editMode"><button type="submit" class="md-button md-primary" ng-click="save(item)">Save Person</button></span>
                     </div>
                 </td>
-            </tr>
-
+            </form>
+        </tr>
             <tr>
-                <td>
-                    <md-button md-no-ink class="md-primary" ng-click="create(name, age)">ADD Person</md-button>
-                </td>
+                <!--<form ng-controller='uploader'>-->
+                <form>
                 <td>
                     <md-input-container>
-                        <input type="text" ng-model="name" placeholder="Name">
+                        <input type="text" id="name" ng-model="customer.name" placeholder="Name">
                     </md-input-container>
                 </td>
                 <td>
                     <md-input-container>
-                        <input type="text" ng-model="age" placeholder="Age">
+                        <input type="text" id="age" ng-model="customer.price" placeholder="Age">
                     </md-input-container>
                 </td>
-              </tr>
+                <td>
+                    <md-input-container>
+                        <input type="file" id="productImage" file-model="customer.productImage">
+                    </md-input-container>
+                </td>
+                <td><button type="submit" class="md-button md-primary" ng-click="create()">Save Person</button></td>
+
+
+            </form>
+
+            </tr>
 
             </tbody>
         </table>
 
         <br/>
+
+
+
+
         <p>
         <table class='reporting_table'>
             <caption>Orders</caption>
@@ -102,8 +120,8 @@
             <tr class="reporting-table-row" ng-repeat="item in orders">
                 <td class="reporting-table-cells ">{{item._id}}</td>
                 <td class="reporting-table-cells ">
-                    <span ng-hide="item.editMode">{{item.productName}}</span>
-                    <span ng-show="item.editMode"><input ng-model="item.product"/></span>
+                    <span ng-hide="item.editMode">{{item.product.name}}</span>
+                    <span ng-show="item.editMode"><input ng-model="item.product.name"/></span>
                 </td>
                 <td class="reporting-table-cells ">
                     <span ng-hide="item.editMode">{{item.name}}</span>
@@ -154,6 +172,8 @@
         </p>
 
     </div>
+
+
 
 </div>
 

@@ -2,12 +2,26 @@ const express = require('express');
 const router = express.Router();
 let mongoose = require('mongoose');
 const Order = require('../models/order');
+const back = require('../../back');
 //-----------------GET ALL------------------------------------------------
 router.get('/', (req, res, next) => {
     Order.find()
+        .select('product quantity _id name')
+        .populate('product', 'name')
         .exec()
         .then(docs => {
-            res.status(200).json(docs);
+            res.status(200).json({
+                count: docs.length,
+                orders: docs.map(doc => {
+                return {
+                    _id: doc.id,
+                    product: doc.product,
+                    quantity: doc.quantity,
+                    name: doc.name
+                }
+                    }
+                )
+            });
         }).catch(err => {
         res.status(500).json(err);
     });
@@ -22,7 +36,7 @@ router.post('/', (req, res, next) => {
     });
     order.save()
         .then(result => {
-            console.log('order saved successfully');
+            console.log('order saved successfully', result);
             res.status(201).json({
                 message: 'Handling POST request to /orderss',
                 createdProduct: order
@@ -36,8 +50,12 @@ router.post('/', (req, res, next) => {
 
 //---------------------GET BY ID------------------------------------------
     router.get('/:orderId', (req, res, next) => {
-        const id = req.params.orderId;
-        Order.findById(id).exec().then(doc =>{
+        // const id = req.params.orderId;
+        Order.findById(req.params.orderId)
+            .select('product quantity _id name')
+            .populate('product', 'name')
+            .exec()
+            .then(doc =>{
             console.log("From database", doc);
             if(doc){
                 res.status(200).json(doc);
@@ -90,5 +108,13 @@ router.patch('/:orderId', (req, res, next) => {
             res.status(500).json({error: err});
         });
 });
+
+//-----------------GET STATUS------------------------------------------------
+router.get('/status/st', (req, res, next) => {
+             res.status(200).json({
+                status: 'I am alive',
+                counter: back.getX()
+            });
+        });
 //--------------------------------------------------------------------------
 module.exports = router;

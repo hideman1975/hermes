@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
 
+
+
 mongoose.connect('mongodb://localhost/hermes', { useNewUrlParser: true }, function (err) {
     if ( err) {
         return console.log(err)
@@ -16,8 +18,10 @@ mongoose.connect('mongodb://localhost/hermes', { useNewUrlParser: true }, functi
     // });
 });
 
+mongoose.Promise = global.Promise;
 
 app.use(morgan('dev'));
+app.use('/uploads', express.static('uploads'))
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
@@ -41,21 +45,5 @@ app.use(express.static(path));
 //----------------------------------------
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
-
-// app.use((req, res, next) => {
-//     const error = new Error('Not found');
-//     error.status = 404;
-//     next(error);
-// });
-
-// app.use((error, req, res, next) => {
-//     res.status(err.status || 500);
-//     res.json({
-//         error: {
-//             message: error.message
-//         }
-//     })
-// });
-
 
 module.exports = app;
