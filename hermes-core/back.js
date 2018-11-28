@@ -1,21 +1,62 @@
-let x = 5;
+const request = require('request');
+
+let products = [];
+let x = 0;
+let newInteraction, getRandomInt;
+
+getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+newInteraction = getRandomInt(1000, 3000);
+
 let timer = function() {
-    // начать повторы с интервалом 2 сек
-    let timerId = setInterval(function() {
-        x++;
-        console.log( "тик", x );
-    }, 2000);
 
-// через 5 сек остановить повторы
-//     setTimeout(function() {
-//         clearInterval(timerId);
-//         console.log( 'стоп' );
-//     }, 5000);
+    refreshData();
+
+   startInteraction(newInteraction);
+   stopInteraction(newInteraction);
+
+
+  };
+
+let refreshData = function() {
+    request({
+        method: 'GET',
+        uri: 'http://localhost:3032/persons',
+        body: {'msg': 'secret'},
+        json: true
+    }, function (error, response, body) {
+        products = body;
+        products.forEach((item, i, products) =>{
+            item.interaction = true;
+            // console.log(item.name);
+        })
+    });
 };
 
-let getX = function() {
-    return x;
+let getProducts = function() {
+    return products;
 };
+
+// -----------Interactions---------------------------------------------
+let startInteraction = (timeInteraction) => {
+    console.log('New Interaction coming with time', timeInteraction);
+    let newTime = getRandomInt(1000, 3000);
+    let agent = getRandomInt(0, 11);
+    if(products[agent]) products[agent].interaction = true;
+    setTimeout(startInteraction, timeInteraction, newTime);
+
+};
+
+let stopInteraction = (timeInteraction) => {
+    console.log('Interaction has stopped', timeInteraction);
+    let newTime = getRandomInt(1000, 3000);
+    let agent = getRandomInt(0, 11);
+    if(products[agent]) products[agent].interaction = false;
+    setTimeout(stopInteraction, timeInteraction, newTime);
+
+};
+//---------------------------------------------------------------------
+
 module.exports.x = x;
 module.exports.timer = timer;
-module.exports.getX = getX;
+module.exports.refreshData = refreshData;
+module.exports.getProducts = getProducts;

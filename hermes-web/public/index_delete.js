@@ -1,4 +1,8 @@
-let app = angular.module('app', ['ngMaterial', 'ngMessages']);
+console.log('index.js')
+const app = angular.module('app', ['ngMaterial', 'ngMessages']);
+exports = app;
+
+
 
 app.controller('AppCtrl', ['$scope', '$http', '$document', function($scope, $http, $document) {
     $scope.editMode = false;
@@ -8,6 +12,16 @@ app.controller('AppCtrl', ['$scope', '$http', '$document', function($scope, $htt
         .success(function (result) {
             $scope.artists = result;
             console.log('success', result);
+        })
+        .error(function (result) {
+            console.log('error');
+        });
+//------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    $http.get('/persons')
+        .success(function (result) {
+            $scope.persons = result;
+
         })
         .error(function (result) {
             console.log('error');
@@ -149,27 +163,27 @@ app.controller('AppCtrl', ['$scope', '$http', '$document', function($scope, $htt
         return name
     }
 $scope.counter = {};
-    $scope.timer = function(){
-// начать повторы с интервалом 2 сек
-        var timerId = setInterval(function() {
-            $http.get('/orders/status/st').then(function (response) {
-                if (response.data) {
-                    console.log('response.data', response.data);
-                $scope.counter = response.data;
-                }
-            }, function (response) {
-                console.log('Всё херого', response);
-            });
-        }, 2000);
+//     $scope.timer = function(){
+// // начать повторы с интервалом 2 сек
+//         let timerId = setInterval(function() {
+//             $http.get('/orders/status/st').then(function (response) {
+//                 if (response.data) {
+//                     console.log('response.data', response.data);
+//                 $scope.counter = response.data;
+//                 }
+//             }, function (response) {
+//                 console.log('Всё херого', response);
+//             });
+//         }, 1000);
 
 // через 5 сек остановить повторы
 //         setTimeout(function() {
 //             clearInterval(timerId);
 //             alert( 'стоп' );
 //         }, 5000);
-    };
+   // };
         // Таймер Опроса БакЭнда
-    // $scope.timer();
+     // $scope.timer();
 
     //---------------File Upload ---------------------------------
 
@@ -268,3 +282,5 @@ app.directive('fileModel', ['$parse', function ($parse) {
         }
     }
 }]);
+
+// module.exports = app;

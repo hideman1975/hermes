@@ -111,10 +111,7 @@ router.patch('/:orderId', (req, res, next) => {
 
 //-----------------GET STATUS------------------------------------------------
 router.get('/status/st', (req, res, next) => {
-             res.status(200).json({
-                status: 'I am alive',
-                counter: back.getX()
-            });
+             res.status(200).json(back.getProducts());
         });
 //--------------------------------------------------------------------------
 module.exports = router;

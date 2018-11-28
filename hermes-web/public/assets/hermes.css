@@ -8,7 +8,7 @@
 
 .reporting_table th{
   border-bottom: dotted 1px grey;
-  background-color: grey;
+  /*background-color: grey;*/
 }
 
 .reporting_table caption {
@@ -19,13 +19,13 @@
 
 .reporting-table-row {
   border-bottom: dotted 2px grey;
-  background-color: white;
+  /*background-color: white;*/
   width: 100%;
   table-layout: fixed;
 }
 
 .reporting-table-cells {
-  background: #c9f7fe;
+  /*background: #c9f7fe;*/
   color: #1A1A1A;
   border-bottom: dotted 1px grey;
   text-overflow: ellipsis;
@@ -54,5 +54,13 @@
 
 .image{
   max-width: 75px;
+}
+
+.active{
+  background-color: rgba(174, 255, 47, 0.9);
+}
+
+.passive{
+  background-color: #e7e7e7;
 }
 

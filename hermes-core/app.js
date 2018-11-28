@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
+const personRoutes = require('./api/routes/person');
 
 
 
@@ -13,10 +14,8 @@ mongoose.connect('mongodb://localhost/hermes', { useNewUrlParser: true }, functi
     if ( err) {
         return console.log(err)
     }
-    //app.listen(3032, function () {
-        console.log('MongoDB connected');
-    // });
-});
+          console.log('MongoDB connected');
+  });
 
 mongoose.Promise = global.Promise;
 
@@ -45,5 +44,6 @@ app.use(express.static(path));
 //----------------------------------------
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
+app.use('/persons', personRoutes);
 
 module.exports = app;

@@ -1,0 +1,22 @@
+<table class='reporting_table'>
+    <caption>Sales department activity</caption>
+    <thead>
+    <tr>
+        <th class="reporting-table-header">Index</th>
+        <th class="reporting-table-header">Имя</th>
+        <th class="reporting-table-header">Activity</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr class="reporting-table-row" ng-repeat="item in persons"
+        ng-class="{'active' : (item.interaction == false), 'passive' : (item.interaction == true) }" >
+        <form>
+            <td class="reporting-table-cells " style="text-align: center">{{$index}}</td>
+            <td class="reporting-table-cells ">{{item.name}}</td>
+            <td class="reporting-table-cells " style="text-align: center">{{item.interaction}}</td>
+       </form>
+    </tr>
+
+    </tbody>
+</table>
