@@ -1,20 +1,15 @@
 const request = require('request');
 
 let products = [];
-let x = 0;
 let newInteraction, getRandomInt;
 
 getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 newInteraction = getRandomInt(1000, 3000);
 
 let timer = function() {
-
-    refreshData();
-
+   refreshData();
    startInteraction(newInteraction);
    stopInteraction(newInteraction);
-
-
   };
 
 let refreshData = function() {
@@ -55,8 +50,6 @@ let stopInteraction = (timeInteraction) => {
 
 };
 //---------------------------------------------------------------------
-
-module.exports.x = x;
 module.exports.timer = timer;
 module.exports.refreshData = refreshData;
 module.exports.getProducts = getProducts;

@@ -1,31 +1,32 @@
 
 app.component('personsActivity',{
     templateUrl: 'components/persons-activity/persons-activity.html',
-    controller: function($scope, $http) {
+    controller: function($scope, $http, $interval) {
  //-------------------------------------------------------------------------
-        $http.get('/orders/status/st')
-            .success(function (result) {
-                $scope.persons = result;
-            })
-            .error(function (result) {
-                console.log('error');
-            });
-        $scope.counter = {};
-        $scope.timer = function () {
-
-            let timerId = setInterval(function () {
-                $http.get('/orders/status/st').then(function (response) {
-                    if (response.data) {
-                        $scope.persons = response.data;
-                        console.log('$scope.persons',response.data)
-                        $scope.counter = response.data;
-                    }
-                }, function (response) {
-                    console.log('Всё херого', response);
+        const getActivity = function () {
+            $http.get('/orders/status/st')
+                .success(function (result) {
+                    $scope.persons = result;
+                    console.log('$scope.persons', result);
+                })
+                .error(function (result) {
+                    console.log('error', result);
                 });
-            }, 1000);
         };
-        // Таймер Опроса БакЭнда
-        $scope.timer();
+
+        this.$onInit = function () {
+            console.log('onInit');
+            getActivity();
+            stop = $interval(getActivity, 1000);
+        };
+
+        this.$onChanges = function () {
+            console.log('onChanges');
+        };
+
+        this.$onDestroy = function () {
+            $interval.cancel(stop);
+            stop = undefined;
         }
+     }
 });
