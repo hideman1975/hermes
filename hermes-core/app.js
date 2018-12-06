@@ -4,9 +4,10 @@ let mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
-const productRoutes = require('./api/routes/products');
+// const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
 const personRoutes = require('./api/routes/person');
+const officeRoutes = require('./api/routes/offices');
 
 
 
@@ -42,8 +43,9 @@ let hermesPath = __dirname.substr(0, 22);
 let path = hermesPath + 'hermes-web\\public';
 app.use(express.static(path));
 //----------------------------------------
-app.use('/products', productRoutes);
+// app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
 app.use('/persons', personRoutes);
+app.use('/offices', officeRoutes);
 
 module.exports = app;

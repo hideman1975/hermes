@@ -1,18 +1,18 @@
-console.log('Persons Manager')
-app.component('personsManager',{
-    templateUrl: 'components/persons-manager/persons-manager.html',
+console.log('Offices');
+app.component('offices',{
+    templateUrl: 'components/offices/offices.html',
     controller: function($scope, $http) {
-        console.log('personsManager controller', $scope)
+        // console.log('personsManager controller', $scope)
 
         //-------------------------------------------------------------------------
-        $http.get('/persons')
-            .success(function (result) {
-                $scope.artists = result;
-                console.log('success', result);
-            })
-            .error(function (result) {
-                console.log('error');
-            });
+        // $http.get('/offices')
+        //     .success(function (result) {
+        //         $scope.artists = result;
+        //         console.log('success', result);
+        //     })
+        //     .error(function (result) {
+        //         console.log('error');
+        //     });
         //------------------------------------------------------------------------
         //-------------------------------------------------------------------------
         $http.get('/offices')
@@ -25,14 +25,14 @@ app.component('personsManager',{
             });
         //------------------------------------------------------------------------
 
-        $scope.name = '';
-        $scope.age = '';
-        $scope.productImage = null;
-        $scope.city = {};
+        // $scope.name = '';
+        // $scope.age = '';
+        // $scope.productImage = null;
+        // $scope.city = {};
         $scope.delete = function (item) {
-            $http.delete('/persons/' + item._id).then(function (response) {
+            $http.delete('/offices/' + item._id).then(function (response) {
                 if (response.data) console.log('response.data', response.data);
-                $scope.artists.splice($scope.artists.indexOf(item), 1);
+                $scope.offices.splice($scope.offices.indexOf(item), 1);
             }, function (response) {
                 console.log('response.status', response.status);
                 console.log('response.headers()', response.headers());
@@ -48,14 +48,14 @@ app.component('personsManager',{
         //---------------------------------------------------------------------------
         $scope.save = function (item) {
             console.log('saved item', item);
-            $scope.patch('/persons/' + item._id, item);
+            $scope.patch('/offices/' + item._id, item);
             item.editMode = false;
 
         };
         //------------------------------------------------------------------------
         $scope.productById = function (item) {
             let name = '';
-            $scope.artists.forEach((elem, i, arr) => {
+            $scope.offices.forEach((elem, i, arr) => {
                 if (elem._id === item) name = elem.name
             });
             return name
@@ -64,7 +64,7 @@ app.component('personsManager',{
         //---------------File Upload ---------------------------------
 
         $scope.create = function () {
-            let uploadUrl = '/persons';
+            let uploadUrl = '/offices';
             $scope.post(uploadUrl, $scope.customer);
             console.log('uploader create', $scope.customer);
 
@@ -73,9 +73,8 @@ app.component('personsManager',{
         $scope.post = function (uploadUrl, data) {
             let fd = new FormData();
             for (let key in data) {
-                if(key !== 'office') fd.append(key, data[key]);
+                fd.append(key, data[key]);
             }
-            fd.append('office', data.office._id);
 
             $http.post(uploadUrl, fd, {
                 transformRequest: angular.identity,
@@ -86,10 +85,11 @@ app.component('personsManager',{
                 .then(function (response) {
                     if (response.data) {
                         console.log('response.data', response.data);
-                        data._id = response.data.createdPerson._id;
-                        data.photo = response.data.createdPerson.photo;
-                        $scope.artists.push(data);
-                        console.log('$scope.artists', $scope.artists);
+                        data._id = response.data.createdOffice._id;
+                        data.photo = response.data.createdOffice.photo;
+                        data.city = response.data.createdOffice.city;
+                        $scope.offices.push(data);
+                        // console.log('$scope.artists', $scope.artists);
                     }
                 }, function (response) {
                     console.log('response.status', response.status);
@@ -105,9 +105,9 @@ app.component('personsManager',{
             if (typeof data.photo !== 'string') {
                 let fd = new FormData();
                 for (let key in data) {
-                    if(key !== 'office') fd.append(key, data[key])
+                    fd.append(key, data[key])
                 }
-                fd.append('office', data.office._id);
+
                 $http.patch(uploadUrl, fd, {
                     transformRequest: angular.identity,
                     headers: {
@@ -117,7 +117,7 @@ app.component('personsManager',{
                 })
                     .then(function (response) {
                         if (response.data) {
-                          data.photo = response.data.editedPerson.photo;
+                            data.photo = response.data.editedPerson.photo;
                         }
                     }, function (response) {
                         console.log('response.status', response.status);

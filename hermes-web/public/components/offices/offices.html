@@ -1,51 +1,51 @@
 <table class='reporting_table'>
-    <caption>Human Resources Department</caption>
+    <caption>Development Department</caption>
     <thead>
     <tr>
         <!--<th class="reporting-table-header">ID</th>-->
         <th class="reporting-table-header">Index</th>
-        <th class="reporting-table-header">Name</th>
-        <th class="reporting-table-header">Age</th>
-        <th class="reporting-table-header">Photo</th>
         <th class="reporting-table-header">City</th>
+        <th class="reporting-table-header">Address</th>
+        <th class="reporting-table-header">Photo</th>
+        <!--<th class="reporting-table-header">City</th>-->
         <th class="reporting-table-header">Actions</th>
     </tr>
     </thead>
 
     <tbody>
-    <tr class="reporting-table-row" ng-repeat="item in artists"
+    <tr class="reporting-table-row" ng-repeat="item in offices"
         ng-class="{'active' : ($index == counter.counter), 'passive' : ($index != counter.counter) }" >
         <form>
             <!--<td class="reporting-table-cells ">{{item._id}}</td>-->
             <td class="reporting-table-cells " style="text-align: center">{{$index}}</td>
             <td class="reporting-table-cells ">
-                <span ng-hide="item.editMode">{{item.name}}</span>
-                <span ng-show="item.editMode"><input type="text" ng-model="item.name" placeholder="Name"></span>
+                <span ng-hide="item.editMode">{{item.city}}</span>
+                <span ng-show="item.editMode"><input type="text" ng-model="item.city" placeholder="Name"></span>
             </td>
             <td class="reporting-table-cells " style="text-align: center">
-                <span ng-hide="item.editMode">{{item.age}}</span>
-                <span ng-show="item.editMode"><input type="text" ng-model="item.age" placeholder="Age"></span>
+                <span ng-hide="item.editMode">{{item.address}}</span>
+                <span ng-show="item.editMode"><input type="text" ng-model="item.address" placeholder="Address"></span>
             </td>
             <td class="reporting-table-cells " style="text-align: center">
                 <span ng-hide="item.editMode"><img class='image' src={{item.photo}} alt={{item.photo}}></span>
                 <span ng-show="item.editMode"><input type="file" file-model="item.photo"></span>
             </td>
-            <td class="reporting-table-cells " style="text-align: center">
-                <span ng-hide="item.editMode">{{item.office.city}}</span>
-                <span ng-show="item.editMode">
+            <!--<td class="reporting-table-cells " style="text-align: center">-->
+                <!--<span ng-hide="item.editMode">{{item.office.city}}</span>-->
+                <!--<span ng-show="item.editMode">-->
 
-              <md-select ng-model="item.office">
-                <md-option ng-value="office" ng-repeat="office in offices">{{ office.city }}</md-option>
-              </md-select>
-                </span>
-            </td>
+              <!--<md-select ng-model="item.office">-->
+                <!--<md-option ng-value="office" ng-repeat="office in offices">{{ office.city }}</md-option>-->
+              <!--</md-select>-->
+                <!--</span>-->
+            <!--</td>-->
             <td class="reporting-table-cells " style="text-align: center">
                 <div style="padding-left: 10px">
                         <span ng-hide="item.editMode"><input class="actions" type="button" value="Delete"
                                                              ng-click="delete(item)"/></span>
                     <span ng-hide="item.editMode"><input style="float: left" type="button" value="Edit"
                                                          ng-click="edit(item)"/></span>
-                    <span ng-show="item.editMode"><button type="submit" class="md-button md-primary" ng-click="save(item)">Save Person</button></span>
+                    <span ng-show="item.editMode"><button type="submit" class="md-button md-primary" ng-click="save(item)">Save Office</button></span>
                 </div>
             </td>
         </form>
@@ -55,25 +55,25 @@
         <form>
             <td>
                 <md-input-container>
-                    <input type="text" id="name" ng-model="customer.name" placeholder="Name">
+                    <input type="text" ng-model="customer.city" placeholder="City">
                 </md-input-container>
             </td>
             <td>
                 <md-input-container>
-                    <input type="text" id="age" ng-model="customer.age" placeholder="Age">
+                    <input type="text" ng-model="customer.address" placeholder="Address">
                 </md-input-container>
             </td>
-            <td>
-                <md-select ng-model="customer.office">
-                    <md-option ng-value="office" ng-repeat="office in offices">{{ office.city }}</md-option>
-                </md-select>
-            </td>
+            <!--<td>-->
+                <!--<md-select ng-model="customer.office">-->
+                    <!--<md-option ng-value="office" ng-repeat="office in offices">{{ office.city }}</md-option>-->
+                <!--</md-select>-->
+            <!--</td>-->
             <td>
                 <md-input-container>
                     <input type="file" id="photo" file-model="customer.photo">
                 </md-input-container>
             </td>
-            <td><button type="submit" class="md-button md-primary" ng-click="create()">Save Person</button></td>
+            <td><button type="submit" class="md-button md-primary" ng-click="create()">Save Office</button></td>
 
 
         </form>

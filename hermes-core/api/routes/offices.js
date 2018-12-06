@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const Product = require('../models/product');
+const Office = require('../models/office');
+const back = require('../../back');
 let mongoose = require('mongoose');
 
 const storage = multer.diskStorage({
@@ -28,8 +29,8 @@ const upload = multer({
     fileFilter: fileFilter,
     limits:
         {
-    fileSize: 1024 * 1024 * 5
-    }
+            fileSize: 1024 * 1024 * 5
+        }
 });
 
 
@@ -37,66 +38,75 @@ const upload = multer({
 
 //-------GET ALL ----------------------------------
 router.get('/', (req, res, next) => {
-    Product.find()
-        .select('name price productImage')
+    Office.find()
+        .select('city address photo')
         .exec()
         .then(docs => {
             res.status(201).json(docs);
         }).catch(err => {
-         res.status(500).json(err);
+        res.status(500).json(err);
     });
 });
 //-------POST------------------------------------
-router.post('/', upload.single('productImage'), (req, res, next) => {
-    console.log('the body', req.body);
-    console.log('the file', req.file);
-    const product = new Product(
+router.post('/', upload.single('photo'), (req, res, next) => {
+
+    let prodImage = '';
+
+    if (req.file === undefined) {
+        prodImage = req.body.photo
+    } else {
+        prodImage = req.file.path;
+    }
+
+    const office = new Office(
         {
             _id: new mongoose.Types.ObjectId(),
-            name: req.body.name,
-            price: req.body.price,
-            productImage: req.file.path
+            city: req.body.city,
+            address: req.body.address,
+            photo: prodImage
         });
-    product.save()
+    office.save()
         .then(result => {
-        console.log('product saved successfully');
+            console.log('office saved successfully');
+            back.refreshData();
             res.status(201).json({
-                message: 'Handling POST request to /products',
-                createdProduct: product
-    })
+                message: 'Handling POST request to /offices',
+                createdOffice: office
+            })
 
-    })
+        })
         .catch(error => {
-            console.log('product do not saved because', error);
+            console.log('office do not saved because', error);
             res.status(500).json({error})
         });
 });
 //-------------GET BY ID------------------------------------------
-router.get('/:productId', (req, res, next) => {
-    const id = req.params.productId;
-    Product.findById(id)
-        .select('name price productImage')
+router.get('/:officeId', (req, res, next) => {
+    const id = req.params.officeId;
+    Office.findById(id)
+        .select('city address photo')
         .exec()
         .then(doc =>{
-       console.log("From database", doc);
-       if(doc){
-           res.status(200).json(doc);
-       }else {
-           res.status(404).json({message: 'No valid entry found for provided Id'})
-       }
+            console.log("From database", doc);
+            if(doc){
+                res.status(200).json(doc);
+            }else {
+                res.status(404).json({message: 'No valid entry found for provided Id'})
+            }
 
-    }).catch(err => {
+        }).catch(err => {
         console.log(err);
         res.status(500).json({error: err});
     });
 
 });
 //------------------DELETE------------------------------
-router.delete('/:productId', (req, res, next) => {
-    const id = req.params.productId;
-    Product.remove({_id: id }).exec().then(doc =>{
+router.delete('/:officeId', (req, res, next) => {
+    const id = req.params.officeId;
+    Office.remove({_id: id }).exec().then(doc =>{
         // console.log("From database", doc);
         if(doc){
+            back.refreshData();
             res.status(200).json(doc);
         }else {
             res.status(404).json({message: 'No valid entry found for provided Id'})
@@ -108,39 +118,36 @@ router.delete('/:productId', (req, res, next) => {
     });
 });
 //-----------------PATCH --EDIT-------------------------------------
-router.patch('/:productId', upload.single('productImage'), (req, res, next) => {
+router.patch('/:id', upload.single('photo'), (req, res, next) => {
 
-    console.log('---params---',req.params);
-    console.log('--body----',req.body);
-    console.log('--file----',req.file);
     let prodImage = '';
-    const id = req.params.productId;
+    const id = req.params.id;
     if (req.file === undefined) {
-        prodImage = req.body.productImage
+        prodImage = req.body.photo
     } else {
         prodImage = req.file.path;
     }
-    const product = new Product(
+    const office = new Office(
         {
-            _id: req.params.productId,
-            name: req.body.name,
-            price: req.body.price,
-            productImage: prodImage
+            _id: req.params.id,
+            city: req.body.city,
+            address: req.body.address,
+            photo: prodImage
         });
 
-    Product.updateOne({_id: id }, { $set:
-        {
-        name: req.body.name,
-        price: req.body.price,
-        productImage: prodImage
-        }
+    Office.updateOne({_id: id }, { $set:
+            {
+                city: req.body.city,
+                address: req.body.address,
+                photo: prodImage
+            }
     })
         .exec()
         .then(function () {
-
+            back.refreshData();
             res.status(200).json({
-                message: 'Handling PATCH by ID=' + id + ' request to /products',
-                editedProduct: product
+                message: 'Handling PATCH by ID=' + id + ' request to /offices',
+                editedPerson: office
             });
         })
         .catch(err => {

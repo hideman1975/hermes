@@ -35,7 +35,7 @@ let getProducts = function() {
 let startInteraction = (timeInteraction) => {
     console.log('New Interaction coming with time', timeInteraction);
     let newTime = getRandomInt(1000, 3000);
-    let agent = getRandomInt(0, 11);
+    let agent = getRandomInt(0, products.length);
     if(products[agent]) products[agent].interaction = true;
     setTimeout(startInteraction, timeInteraction, newTime);
 
@@ -44,7 +44,7 @@ let startInteraction = (timeInteraction) => {
 let stopInteraction = (timeInteraction) => {
     console.log('Interaction has stopped', timeInteraction);
     let newTime = getRandomInt(1000, 3000);
-    let agent = getRandomInt(0, 11);
+    let agent = getRandomInt(0, products.length);
     if(products[agent]) products[agent].interaction = false;
     setTimeout(stopInteraction, timeInteraction, newTime);
 

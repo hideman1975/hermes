@@ -6,7 +6,8 @@ let personSchema = new Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: {type: String, required: true},
     age: {type: Number, required: true},
-    photo: {type: String, required: true}
+    photo: {type: String, required: true},
+    office: {type: mongoose.Schema.Types.ObjectId, ref: 'Offices'},
 }, {collection: 'persons'});
 
 module.exports = mongoose.model('Persons', personSchema);

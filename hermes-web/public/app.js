@@ -10,6 +10,10 @@ app.config(function($routeProvider){
         {
             template:'<persons-manager></persons-manager>',
         });
+    $routeProvider.when('/office',
+        {
+            template:'<offices></offices>',
+        });
     $routeProvider.otherwise({
         redirectTo: '/'
     });
