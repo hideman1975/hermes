@@ -2,8 +2,29 @@
     <caption>Human Resources Department</caption>
     <thead>
     <tr>
+        <th>Filter</th>
+        <th>Filter</th>
+        <th>Filter</th>
+        <th>Filter</th>
+        <th>Filter</th>
+        <th>
+            <md-input-container>
+                <md-select class="searchByChannel" ng-model="filter.office" ng-change="onSearchInputChanged()" aria-label="{{'Search by office'}}" cc-tooltip>
+                    <md-option ng-value="undefined">{{'All Offices'}}</md-option>
+                    <md-option ng-repeat="office in offices" ng-value="office">{{ office.city }}</md-option>
+                </md-select>
+            </md-input-container>
+        </th>
+       <th>Filter</th>
+    </tr>
+    <tr>
         <!--<th class="reporting-table-header">ID</th>-->
         <th class="reporting-table-header">Index</th>
+        <th class="reporting-table-header">
+            <a class="table-cell-ellipsis" ng-if="true" ng-click="orderBy()">Position
+                <md-icon  ng-class="{'icon-chevron-up' : (reverse === 'asc'), 'icon-chevron-down' : (reverse === 'desc') }"></md-icon>
+            </a>
+         </th>
         <th class="reporting-table-header">Name</th>
         <th class="reporting-table-header">Age</th>
         <th class="reporting-table-header">Photo</th>
@@ -13,21 +34,27 @@
     </thead>
 
     <tbody>
-    <tr class="reporting-table-row" ng-repeat="item in artists"
-        ng-class="{'active' : ($index == counter.counter), 'passive' : ($index != counter.counter) }" >
-        <form>
-            <!--<td class="reporting-table-cells ">{{item._id}}</td>-->
-            <td class="reporting-table-cells " style="text-align: center">{{$index}}</td>
+    <tr class="reporting-table-row" ng-repeat="item in filteredPersons " >
+
+            <form>
+            <td class="reporting-table-cells " style="text-align: center">{{$index+1;}}</td>
+
+            <td class="reporting-table-cells ">
+                <span ng-hide="item.editMode">{{item.position}}</span>
+                <span ng-show="item.editMode"><input type="text" ng-model="item.position" placeholder="Position"></span>
+            </td>
+
             <td class="reporting-table-cells ">
                 <span ng-hide="item.editMode">{{item.name}}</span>
                 <span ng-show="item.editMode"><input type="text" ng-model="item.name" placeholder="Name"></span>
             </td>
+
             <td class="reporting-table-cells " style="text-align: center">
                 <span ng-hide="item.editMode">{{item.age}}</span>
                 <span ng-show="item.editMode"><input type="text" ng-model="item.age" placeholder="Age"></span>
             </td>
             <td class="reporting-table-cells " style="text-align: center">
-                <span ng-hide="item.editMode"><img class='image' src={{item.photo}} alt={{item.photo}}></span>
+                <span ng-hide="item.editMode"><img class='image' src={{item.photo}} alt="No Photo"></span>
                 <span ng-show="item.editMode"><input type="file" file-model="item.photo"></span>
             </td>
             <td class="reporting-table-cells " style="text-align: center">
@@ -41,7 +68,7 @@
             </td>
             <td class="reporting-table-cells " style="text-align: center">
                 <div style="padding-left: 10px">
-                        <span ng-hide="item.editMode"><input class="actions" type="button" value="Delete"
+                        <span ng-hide="item.editMode"><input class="actions" type="button" value="Dismiss"
                                                              ng-click="delete(item)"/></span>
                     <span ng-hide="item.editMode"><input style="float: left" type="button" value="Edit"
                                                          ng-click="edit(item)"/></span>
@@ -53,6 +80,12 @@
     <tr>
         <!--<form ng-controller='uploader'>-->
         <form>
+            <td>
+                <md-input-container>
+                    <input type="text" id="position" ng-model="customer.position" placeholder="Position">
+                </md-input-container>
+            </td>
+
             <td>
                 <md-input-container>
                     <input type="text" id="name" ng-model="customer.name" placeholder="Name">

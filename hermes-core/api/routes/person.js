@@ -40,13 +40,16 @@ const upload = multer({
 //-------GET ALL ----------------------------------
 router.get('/', (req, res, next) => {
     Person.find()
-        .select('name age photo office')
+        .select('position name age photo  office')
         .populate('office')
         .exec()
         .then(docs => {
+
             res.status(201).json(docs.map(doc => {
+                console.log('doc', doc);
                 return {
                     _id: doc._id,
+                    position: doc.position,
                     name: doc.name,
                     age: doc.age,
                     office: doc.office,
@@ -76,6 +79,7 @@ router.post('/', upload.single('photo'), (req, res, next) => {
 
             const person = new Person({
                 _id: new mongoose.Types.ObjectId(),
+                position: req.body.position,
                 name: req.body.name,
                 age: req.body.age,
                 office: req.body.office,
@@ -96,7 +100,7 @@ router.post('/', upload.single('photo'), (req, res, next) => {
 router.get('/:personId', (req, res, next) => {
 
     Person.findById(req.params.personId)
-        .select('name age photo office')
+        .select('position name age photo office')
         .exec()
         .then(doc =>{
             if(!doc){
@@ -110,6 +114,7 @@ router.get('/:personId', (req, res, next) => {
                 .then(office => {
                     res.status(200).json({
                         _id: doc.id,
+                        position: doc.position,
                         name: doc.name,
                         age: doc.age,
                         office: office
@@ -161,6 +166,7 @@ router.patch('/:personId', upload.single('photo'), (req, res, next) => {
         {
             _id: req.params.personId,
             name: req.body.name,
+            position: req.body.position,
             age: req.body.age,
             office: req.body.office,
             photo: prodImage
@@ -169,6 +175,7 @@ router.patch('/:personId', upload.single('photo'), (req, res, next) => {
     Person.updateOne({_id: id }, { $set:
             {
                 name: req.body.name,
+                position: req.body.position,
                 age: req.body.age,
                 office: req.body.office,
                 photo: prodImage

@@ -6,28 +6,23 @@
         <th class="reporting-table-header">Index</th>
         <th class="reporting-table-header">Имя</th>
         <th class="reporting-table-header">Activity</th>
+        <th class="reporting-table-header">Timer</th>
         <th class="reporting-table-header">Interaction</th>
+
     </tr>
     </thead>
 
     <tbody>
     <tr class="reporting-table-row" ng-repeat="item in persons"
-        ng-class="{'active' : (item.interaction == false), 'passive' : (item.interaction == true) }" >
+        ng-class="{'active' : (item.interaction == true), 'passive' : (item.interaction == false) }" >
         <form>
             <td class="reporting-table-cells " style="text-align: center">{{$index}}</td>
             <td class="reporting-table-cells ">{{item.name}}</td>
             <td class="reporting-table-cells " style="text-align: center">{{item.interaction}}</td>
+            <td class="reporting-table-cells " style="text-align: center"><i ng-class="item.type" > <span style="margin-left: 10px">{{item.timer}}</span>  </i></td>
             <td class="reporting-table-cells " style="text-align: center">
-                <i class="icon-headphones"></i>
-                <i class="icon-comment-alt"></i>
-                <i class="icon-envelope-alt"></i>
-                <i class="icon-bell"></i>
-                <i class="icon-truck"></i>
-                <i class="icon-plane"></i>
-                <i class="icon-phone"></i>
-                <i class="icon-coffee"></i>
-                <i class="icon-group"></i>
-            </td>
+
+             </td>
        </form>
     </tr>
 

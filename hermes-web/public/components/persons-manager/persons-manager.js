@@ -1,13 +1,14 @@
 console.log('Persons Manager')
 app.component('personsManager',{
     templateUrl: 'components/persons-manager/persons-manager.html',
-    controller: function($scope, $http) {
+    controller: function($scope, $http, $filter) {
         console.log('personsManager controller', $scope)
 
         //-------------------------------------------------------------------------
         $http.get('/persons')
             .success(function (result) {
                 $scope.artists = result;
+                $scope.filteredPersons = $scope.artists;
                 console.log('success', result);
             })
             .error(function (result) {
@@ -132,6 +133,30 @@ app.component('personsManager',{
                     }, function (response) {
                         console.log('some thing wrong', response);
                     });
+            }
+        };
+        $scope.reverse = 'desc';
+
+        $scope.orderBy = () => {
+            console.log('Order By', $scope.reverse);
+            if($scope.reverse === 'desc'){
+                console.log('if asc');
+                $scope.reverse = 'asc';
+            }
+            else {
+                console.log('if desc');
+                $scope.reverse = 'desc';
+            }
+        }
+$scope.filtered = false;
+        $scope.onSearchInputChanged = () => {
+            if($scope.filter.office) {
+                $scope.filteredPersons = $scope.artists.filter(function (item) {
+                    return item.office.city === $scope.filter.office.city;
+                });
+               $scope.filtered = true;
+            } else {
+               $scope.filteredPersons = $scope.artists;
             }
         }
     }
