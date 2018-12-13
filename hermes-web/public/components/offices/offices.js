@@ -2,23 +2,13 @@ console.log('Offices');
 app.component('offices',{
     templateUrl: 'components/offices/offices.html',
     controller: function($scope, $http) {
-        // console.log('personsManager controller', $scope)
 
-        //-------------------------------------------------------------------------
-        // $http.get('/offices')
-        //     .success(function (result) {
-        //         $scope.artists = result;
-        //         console.log('success', result);
-        //     })
-        //     .error(function (result) {
-        //         console.log('error');
-        //     });
-        //------------------------------------------------------------------------
         //-------------------------------------------------------------------------
         $http.get('/offices')
             .success(function (result) {
                 $scope.offices = result;
                 console.log('offices now this', result);
+                $scope.graphics();
             })
             .error(function (result) {
                 console.log('error');
@@ -105,8 +95,12 @@ app.component('offices',{
             if (typeof data.photo !== 'string') {
                 let fd = new FormData();
                 for (let key in data) {
-                    fd.append(key, data[key])
+                    if(key !== 'financial') fd.append(key, data[key])
                 }
+                // fd.append('financial', 4);
+                // fd.append('financial', 4);
+                // fd.append('financial', 4);
+                // console.log('financial-------', data.financial);
 
                 $http.patch(uploadUrl, fd, {
                     transformRequest: angular.identity,
@@ -133,8 +127,67 @@ app.component('offices',{
                         console.log('some thing wrong', response);
                     });
             }
-        }
-    }
+        };
+        //------------------Graph-----------------------------------
+        $scope.graphics = function () {
+            $scope.data = [];
+            $scope.labels = [
+                "January", "February", "March",
+                "April", "May", "June",
+                "July", "August", "September",
+                "October", "November", "December"];
+            $scope.series = ['Sales', 'Profit Margin %'];
+
+            if ($scope.offices) {
+                $scope.data.push($scope.offices[$scope.activatedOffice].financial);
+                $scope.data.push($scope.offices[$scope.activatedOffice].profit);
+            }
+
+            $scope.onClick = function (points, evt) {
+
+            };
+            $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
+            $scope.options = {
+                scales: {
+                    yAxes: [{
+
+                            id: 'y-axis-1',
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+
+                        },
+                        {
+                            ticks: {
+                                beginAtZero:true,
+                                fontFamily: "'Open Sans Bold', sans-serif",
+                                fontSize:11,
+                                // min: 0,
+                                // max: 100,
+                                callback: function(value){return value+ "%"}
+                            },
+
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Profit Margin Percentage',
+                            },
+                            id: 'y-axis-2',
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+
+                        }
+                    ]
+                }
+            };
+        };
+//------------------------------------------------------
+$scope.activatedOffice = 0;
+     $scope.activate = (item, index) => {
+         $scope.activatedOffice = index;
+         $scope.graphics();
+     }
+   }
 });
 
 app.directive('fileModel', ['$parse', function ($parse) {

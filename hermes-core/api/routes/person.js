@@ -46,7 +46,7 @@ router.get('/', (req, res, next) => {
         .then(docs => {
 
             res.status(201).json(docs.map(doc => {
-                console.log('doc', doc);
+
                 return {
                     _id: doc._id,
                     position: doc.position,

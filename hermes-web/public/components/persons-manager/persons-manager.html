@@ -1,40 +1,46 @@
+<i class="icon-chevron-up"></i> icon-chevron-up
+<i class="icon-trash"></i> icon-trash
+<i class="icon-food"></i> icon-food
+<i class="icon-ok-circle"></i> icon-ok-circle
+<i class="icon-cut"></i> icon-cut
+<i class="icon-remove-sign"></i> icon-remove-sign
 <table class='reporting_table'>
     <caption>Human Resources Department</caption>
     <thead>
     <tr>
-        <th>Filter</th>
-        <th>Filter</th>
-        <th>Filter</th>
-        <th>Filter</th>
-        <th>Filter</th>
+        <th>
+            <a class="table-cell-ellipsis" ng-click="orderBy()" title="My Tooltip!" data-toggle="tooltip" data-placement="top" tooltip>Position
+                <md-icon  ng-class="{'icon-chevron-up' : (reverse === 'asc'), 'icon-chevron-down' : (reverse === 'desc') }"></md-icon>
+            </a>
+        </th>
+        <th>
+            <md-button class="md-raised" ng-click="sortBy('position')" title="Sort by position">Position</md-button>
+            <span class="sortorder" ng-show="propertyName === 'position'" ng-class="{reverse: reverse}"></span>
+         </th>
+        <th>
+            <md-button class="md-raised" ng-click="sortBy('name')" title="Sort by name">Name</md-button>
+            <span class="sortorder" ng-show="propertyName === 'name'" ng-class="{reverse: reverse}"></span>
+        </th>
+        <th>
+            <md-button class="md-raised" ng-click="sortBy('age')" title="Sort by age">Age</md-button>
+            <span class="sortorder" ng-show="propertyName === 'age'" ng-class="{reverse: reverse}"></span>
+        </th>
+        <th>Photo</th>
         <th>
             <md-input-container>
-                <md-select class="searchByChannel" ng-model="filter.office" ng-change="onSearchInputChanged()" aria-label="{{'Search by office'}}" cc-tooltip>
+                <md-select class="searchByChannel" ng-model="filter.office" ng-change="onSearchInputChanged()" title="Search by office" data-toggle="tooltip" data-placement="top" tooltip>
                     <md-option ng-value="undefined">{{'All Offices'}}</md-option>
                     <md-option ng-repeat="office in offices" ng-value="office">{{ office.city }}</md-option>
                 </md-select>
             </md-input-container>
         </th>
-       <th>Filter</th>
+       <th>Action</th>
     </tr>
-    <tr>
-        <!--<th class="reporting-table-header">ID</th>-->
-        <th class="reporting-table-header">Index</th>
-        <th class="reporting-table-header">
-            <a class="table-cell-ellipsis" ng-if="true" ng-click="orderBy()">Position
-                <md-icon  ng-class="{'icon-chevron-up' : (reverse === 'asc'), 'icon-chevron-down' : (reverse === 'desc') }"></md-icon>
-            </a>
-         </th>
-        <th class="reporting-table-header">Name</th>
-        <th class="reporting-table-header">Age</th>
-        <th class="reporting-table-header">Photo</th>
-        <th class="reporting-table-header">City</th>
-        <th class="reporting-table-header">Actions</th>
-    </tr>
+
     </thead>
 
     <tbody>
-    <tr class="reporting-table-row" ng-repeat="item in filteredPersons " >
+    <tr class="reporting-table-row" ng-repeat="item in filteredPersons | orderBy:propertyName:reverse" >
 
             <form>
             <td class="reporting-table-cells " style="text-align: center">{{$index+1;}}</td>
@@ -67,12 +73,24 @@
                 </span>
             </td>
             <td class="reporting-table-cells " style="text-align: center">
-                <div style="padding-left: 10px">
-                        <span ng-hide="item.editMode"><input class="actions" type="button" value="Dismiss"
-                                                             ng-click="delete(item)"/></span>
-                    <span ng-hide="item.editMode"><input style="float: left" type="button" value="Edit"
-                                                         ng-click="edit(item)"/></span>
-                    <span ng-show="item.editMode"><button type="submit" class="md-button md-primary" ng-click="save(item)">Save Person</button></span>
+                <div style="padding-left: 10px;">
+                        <span ng-hide="item.editMode">
+                            <!--<input class="actions" type="button" value="Dismiss" ng-click="delete(item)"/>-->
+                            <md-button class="md-fab action-button"  ng-click="delete(item)" title="Delete person">
+                                <i class="icon-trash icon-large action-icon"></i>
+                            </md-button>
+                        </span>
+                    <span ng-hide="item.editMode">
+                        <!--<input style="float: left" type="button" value="Edit" ng-click="edit(item)"/>-->
+                        <md-button class="md-fab action-button"  ng-click="edit(item)" title="Edit person">
+                            <i class="icon-cut icon-large action-icon"></i>
+                        </md-button>
+                    </span>
+                    <span ng-show="item.editMode">
+                        <md-button type="submit" class="md-fab action-button" ng-click="save(item)" title="Save">
+                             <i class="icon-thumbs-up-alt icon-large action-icon"></i>
+                        </md-button>
+                    </span>
                 </div>
             </td>
         </form>

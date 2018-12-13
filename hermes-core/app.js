@@ -21,7 +21,8 @@ mongoose.connect('mongodb://localhost/hermes', { useNewUrlParser: true }, functi
 mongoose.Promise = global.Promise;
 
 app.use(morgan('dev'));
-app.use('/uploads', express.static('uploads'))
+app.use('/uploads', express.static('uploads'));
+app.use('/node_modules', express.static('node_modules'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 

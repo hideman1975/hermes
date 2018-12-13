@@ -39,7 +39,7 @@ const upload = multer({
 //-------GET ALL ----------------------------------
 router.get('/', (req, res, next) => {
     Office.find()
-        .select('city address photo')
+        .select('city address photo financial profit')
         .exec()
         .then(docs => {
             res.status(201).json(docs);
@@ -63,7 +63,9 @@ router.post('/', upload.single('photo'), (req, res, next) => {
             _id: new mongoose.Types.ObjectId(),
             city: req.body.city,
             address: req.body.address,
-            photo: prodImage
+            photo: prodImage,
+            financial: req.body.financial,
+            profit: req.body.profit
         });
     office.save()
         .then(result => {
@@ -84,7 +86,7 @@ router.post('/', upload.single('photo'), (req, res, next) => {
 router.get('/:officeId', (req, res, next) => {
     const id = req.params.officeId;
     Office.findById(id)
-        .select('city address photo')
+        .select('city address photo financial profit')
         .exec()
         .then(doc =>{
             console.log("From database", doc);
@@ -119,7 +121,8 @@ router.delete('/:officeId', (req, res, next) => {
 });
 //-----------------PATCH --EDIT-------------------------------------
 router.patch('/:id', upload.single('photo'), (req, res, next) => {
-
+    console.log('UpdateOne financial', req.body.financial);
+    console.log('UpdateOne profit', req.body.profit);
     let prodImage = '';
     const id = req.params.id;
     if (req.file === undefined) {
@@ -132,6 +135,8 @@ router.patch('/:id', upload.single('photo'), (req, res, next) => {
             _id: req.params.id,
             city: req.body.city,
             address: req.body.address,
+            // financial: req.body.financial,
+            // profit: req.body.profit,
             photo: prodImage
         });
 
@@ -139,8 +144,11 @@ router.patch('/:id', upload.single('photo'), (req, res, next) => {
             {
                 city: req.body.city,
                 address: req.body.address,
+                // financial: req.body.financial,
+                // profit: req.body.profit,
                 photo: prodImage
             }
+
     })
         .exec()
         .then(function () {

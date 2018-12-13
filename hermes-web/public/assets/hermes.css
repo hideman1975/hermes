@@ -79,4 +79,24 @@ i {
   background-color: #66f8ff;
 }
 
+.sortorder:after {
+  content: '\25b2';   // BLACK UP-POINTING TRIANGLE
+}
+.sortorder.reverse:after {
+  content: '\25bc';   // BLACK DOWN-POINTING TRIANGLE
+}
+
+.sort {
+  background-color: #66f8ff;
+}
+
+.action-button {
+  background-color: #cbcbcb !important;
+
+  display: inline-block;
+}
+
+.action-icon {
+  color: #1A1A1A !important;
+}
 

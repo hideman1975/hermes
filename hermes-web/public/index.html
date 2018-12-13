@@ -7,10 +7,14 @@
     <base href="/">
     <link rel="icon" type="image/ico" href="assets/images/hermes.ico"/>
     <script type="text/javascript" src="vendor/angular/angular.js"></script>
+    <script type="text/javascript" src="node_modules/chart.js/dist/Chart.min.js"></script>
+    <script type="text/javascript" src="node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
+
     <title>Node JS Express AngularJS MongoDB</title>
     <link rel="stylesheet" href="assets/angular-material.min.css">
     <!--Awesome-->
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css"
+          rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
 
@@ -31,27 +35,26 @@
         <md-nav-item md-nav-href="#home" name="home">Activity</md-nav-item>
         <md-nav-item md-nav-href="#person" name="person">HR Management</md-nav-item>
         <md-nav-item md-nav-href="#office" name="offices">Development</md-nav-item>
-        <md-nav-item md-nav-href="/" name="about" > About</md-nav-item>
+        <md-nav-item md-nav-href="#graph" name="Graphics"> Graphics</md-nav-item>
+        <md-nav-item md-nav-href="/" name="about"> About</md-nav-item>
 
     </md-nav-bar>
-    </md-content>
-<ng-view></ng-view>
+</md-content>
 
+<!--Result of Router-->
+<ng-view></ng-view>
 
 <script src="app.js"></script>
 <script src="components/persons-activity/persons-activity.js"></script>
 <script src="components/persons-manager/persons-manager.js"></script>
 <script src="components/offices/offices.js"></script>
+<script src="controllers/graphics.js"></script>
 <script type="text/javascript" src="vendor/angular-ui-router/release/angular-ui-router.js"></script>
 <script src="vendor/angular/angular-animate.min.js"></script>
 <script src="vendor/angular/angular-aria.min.js"></script>
 <script src="vendor/angular/angular-messages.min.js"></script>
 <script src="vendor/angular/angular-material.min.js"></script>
 <script src="vendor/angular-route/angular-route.min.js"></script>
-
-<!--<main ng-view><persons-activity></persons-activity></main>-->
-
-<!--<persons-manager></persons-manager>-->
 
 </body>
 </html>

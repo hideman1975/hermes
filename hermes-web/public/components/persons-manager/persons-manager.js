@@ -1,6 +1,7 @@
 console.log('Persons Manager')
 app.component('personsManager',{
     templateUrl: 'components/persons-manager/persons-manager.html',
+    styles: 'components/persons-manager/persons-manager.css',
     controller: function($scope, $http, $filter) {
         console.log('personsManager controller', $scope)
 
@@ -108,7 +109,9 @@ app.component('personsManager',{
                 for (let key in data) {
                     if(key !== 'office') fd.append(key, data[key])
                 }
+                //especial cases
                 fd.append('office', data.office._id);
+
                 $http.patch(uploadUrl, fd, {
                     transformRequest: angular.identity,
                     headers: {
@@ -147,18 +150,29 @@ app.component('personsManager',{
                 console.log('if desc');
                 $scope.reverse = 'desc';
             }
-        }
-$scope.filtered = false;
+        };
+
+//$scope.filtered = false;
         $scope.onSearchInputChanged = () => {
             if($scope.filter.office) {
                 $scope.filteredPersons = $scope.artists.filter(function (item) {
                     return item.office.city === $scope.filter.office.city;
                 });
-               $scope.filtered = true;
+               //$scope.filtered = true;
             } else {
                $scope.filteredPersons = $scope.artists;
             }
         }
+
+        $scope.propertyName = 'age';
+        $scope.reverse = true;
+        // $scope.friends = friends;
+
+        $scope.sortBy = function(propertyName) {
+            $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
+            $scope.propertyName = propertyName;
+            //$scope.orderBy();
+        };
     }
 });
 
@@ -179,3 +193,19 @@ app.directive('fileModel', ['$parse', function ($parse) {
         }
     }
 }]);
+
+// app.directive('tooltip', function(){
+//     return {
+//         restrict: 'A',
+//         link: function(scope, element, attrs){
+//             $(element).hover(function(){
+//                 console.log('Hover')
+//                 // on mouseenter
+//                 $(element).tooltip('show');
+//             }, function(){
+//                 // on mouseleave
+//                 $(element).tooltip('hide');
+//             });
+//         }
+//     };
+// });
