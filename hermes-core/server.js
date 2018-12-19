@@ -9,5 +9,5 @@ server.listen(port, function () {
     console.log('API app started at '+ port +' port');
 });
 
-//back.timer();
+back.timer();
 

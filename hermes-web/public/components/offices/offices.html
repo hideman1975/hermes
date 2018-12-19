@@ -14,10 +14,11 @@
 
     <tbody>
     <tr class="reporting-table-row" ng-repeat="item in offices"
-        ng-class="{'active' : ($index == activatedOffice), 'passive' : ($index != activatedOffice) }" ng-click="activate(item, $index)">
+        ng-class="{'active' : ($index == activatedOffice), 'passive' : ($index != activatedOffice) }"
+        ng-click="activate($index)">
         <form>
 
-            <td class="reporting-table-cells " style="text-align: center">{{$index}}</td>
+            <td class="reporting-table-cells " style="text-align: center">{{$index+1}}</td>
             <td class="reporting-table-cells ">
                 <span ng-hide="item.editMode">{{item.city}}</span>
                 <span ng-show="item.editMode"><input type="text" ng-model="item.city" placeholder="Name"></span>
@@ -27,27 +28,49 @@
                 <span ng-show="item.editMode"><input type="text" ng-model="item.address" placeholder="Address"></span>
             </td>
             <td class="reporting-table-cells " style="text-align: center">
-                <span ng-hide="item.editMode"><img class='image' src={{item.photo}} alt={{item.photo}}></span>
-                <span ng-show="item.editMode"><input type="file" file-model="item.photo"></span>
+                <span ng-hide="item.editMode"><img class='image' src='offices/image/{{item.photo}}' alt={{item.photo}}></span>
+                <span ng-show="item.editMode"><input type="file" file-model="item.image"></span>
             </td>
-            <td>{{item.financial}}<br/>{{item.profit}}</td>
-            <td class="reporting-table-cells " style="text-align: center">
+            <td>
+                <span ng-show="item.editMode">
+                    <input style="width: 6%" type="text" ng-repeat='value in item.financial track by $index'
+                           ng-model="item.financial[$index]">
+                </span><br/>
+                <span ng-show="item.editMode">
+                    <input style="width: 6%" type="text" ng-repeat='value in item.profit track by $index'
+                           ng-model="item.profit[$index]">
+                </span>
+            </td>
+
+            <td class="reporting-table-cells " style="text-align: center" >
                 <div style="padding-left: 10px">
-                        <span ng-hide="item.editMode"><input class="actions" type="button" value="Delete"
-                                                             ng-click="delete(item)"/></span>
-                    <span ng-hide="item.editMode"><input style="float: left" type="button" value="Edit"
-                                                         ng-click="edit(item)"/></span>
-                    <span ng-show="item.editMode"><button type="submit" class="md-button md-primary"
-                                                          ng-click="save(item)">Save Office</button></span>
+                        <span ng-hide="item.editMode">
+                            <md-button class="md-fab action-button" value="Delete" ng-click="delete(item)" ng-disabled="true">
+                                <md-tooltip md-direction="top">Delete office</md-tooltip>
+                                <i class="icon-trash icon-large action-icon"></i>
+                            </md-button>
+                        </span>
+                    <span ng-hide="item.editMode">
+                        <md-button class="md-fab action-button" value="Edit" ng-click="edit(item)" ng-disabled="false">
+                            <md-tooltip md-direction="top">Edit office</md-tooltip>
+                            <i class="icon-cut icon-large action-icon"></i>
+                        </md-button>
+                    </span>
+                    <span ng-show="item.editMode">
+                        <md-button type="submit" class="md-fab action-button" ng-click="save(item)" >
+                             <md-tooltip md-direction="top">Save</md-tooltip>
+                            <i class="icon-thumbs-up-alt icon-large action-icon"></i>
+                        </md-button>
+                    </span>
                 </div>
             </td>
 
         </form>
 
     </tr>
-    <tr>
-
-        <form>
+    <tr class="newObject">
+        <td style="font-size: 18px">Create Trade Office</td>
+        <form enctype="multipart/form-data">
             <td>
                 <md-input-container>
                     <input type="text" ng-model="customer.city" placeholder="City">
@@ -60,12 +83,14 @@
             </td>
 
             <td>
-                <md-input-container>
-                    <input type="file" id="photo" file-model="customer.photo">
+                <md-input-container class="upload">
+                    <input type="file" id="photo" name='photo' file-model="customer.photo">
+                    <md-tooltip md-direction="top">Chose Photo</md-tooltip>
                 </md-input-container>
             </td>
+            <td></td>
             <td>
-                <button type="submit" class="md-button md-primary" ng-click="create()">Save Office</button>
+                <button type="submit" class="md-button md-primary" ng-click="create()" disabled>Save Office</button>
             </td>
 
 
@@ -77,11 +102,18 @@
 </table>
 
 
-<div style="width: 600px">
-    <h4 style="margin-left: 50px"> {{offices[activatedOffice].city}} Trade mission.  Sales and Profit % in 2018 year</h4>
+<div style="width: 100%;">
+    <div style="display: inline-block; width: 48%;">
+    <h4 style="margin-left: 50px"> {{offices[activatedOffice].city}} Trade mission. Sales and Profit % in 2018 year</h4>
     <canvas id="line" class="chart chart-line" chart-data="data"
             chart-labels="labels" chart-series="series" chart-options="options"
             chart-dataset-override="datasetOverride" chart-click="onClick">
     </canvas>
-
+    </div>
+    <div style="display: inline-block; width: 48%;">
+        <h4 style="margin-left: 50px"> Share of Sales in 2018 year</h4>
+    <canvas id="pie" class="chart chart-pie"
+            chart-data="pieData" chart-labels="pieLabels" chart-options="pieOptions" chart-colors="colors">
+    </canvas>
+    </div>
 </div>

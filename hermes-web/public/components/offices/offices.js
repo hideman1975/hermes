@@ -3,22 +3,32 @@ app.component('offices',{
     templateUrl: 'components/offices/offices.html',
     controller: function($scope, $http) {
 
-        //-------------------------------------------------------------------------
+        $scope.defaultColors = [
+            '#e1d9dc',
+            '#b5abac',
+            '#868081',
+            '#635f5f',
+            '#4d4a4d',
+            '#212120',
+            '#fbf4ff',
+            '#fff5ea',
+        ];
+        $scope.labels = [
+            "January", "February", "March",
+            "April", "May", "June",
+            "July", "August", "September",
+            "October", "November", "December"];
+ //----------------------Get All Offices---------------------------------------------------
         $http.get('/offices')
             .success(function (result) {
                 $scope.offices = result;
-                console.log('offices now this', result);
-                $scope.graphics();
-            })
+                $scope.sumSales();
+                $scope.activate(0);
+               })
             .error(function (result) {
                 console.log('error');
             });
-        //------------------------------------------------------------------------
-
-        // $scope.name = '';
-        // $scope.age = '';
-        // $scope.productImage = null;
-        // $scope.city = {};
+ //----------------------------------------------------------------------------------------
         $scope.delete = function (item) {
             $http.delete('/offices/' + item._id).then(function (response) {
                 if (response.data) console.log('response.data', response.data);
@@ -28,40 +38,33 @@ app.component('offices',{
                 console.log('response.headers()', response.headers());
             });
         };
-        //---------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------
         $scope.edit = function (item) {
-
-            console.log('item', item);
             item.editMode = true;
-
         };
-        //---------------------------------------------------------------------------
+ //-----------------------------------------------------------------------------------------
         $scope.save = function (item) {
-            console.log('saved item', item);
             $scope.patch('/offices/' + item._id, item);
             item.editMode = false;
-
         };
-        //------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------
         $scope.productById = function (item) {
             let name = '';
             $scope.offices.forEach((elem, i, arr) => {
                 if (elem._id === item) name = elem.name
             });
             return name
-        }
-
-        //---------------File Upload ---------------------------------
-
+        };
+ //-----------------------------File Upload ------------------------------------------------
         $scope.create = function () {
             let uploadUrl = '/offices';
             $scope.post(uploadUrl, $scope.customer);
-            console.log('uploader create', $scope.customer);
-
         };
 
         $scope.post = function (uploadUrl, data) {
             let fd = new FormData();
+            let emptyArray = ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'];
+            let emptyProfit = ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'];
             for (let key in data) {
                 fd.append(key, data[key]);
             }
@@ -74,44 +77,45 @@ app.component('offices',{
             })
                 .then(function (response) {
                     if (response.data) {
+                        let newOffice = {};
                         console.log('response.data', response.data);
-                        data._id = response.data.createdOffice._id;
-                        data.photo = response.data.createdOffice.photo;
-                        data.city = response.data.createdOffice.city;
-                        $scope.offices.push(data);
-                        // console.log('$scope.artists', $scope.artists);
+                        newOffice._id = response.data.createdOffice._id;
+                        newOffice.photo = response.data.createdOffice.photo;
+                        newOffice.city = response.data.createdOffice.city;
+                        newOffice.address = response.data.createdOffice.address;
+                        newOffice.financial = emptyArray;
+                        newOffice.profit = emptyProfit;
+                        $scope.offices.push(newOffice);
                     }
                 }, function (response) {
-                    console.log('response.status', response.status);
-                })
-                .catch(err => {
-                    console.log('some thing wrong', err);
+                    console.log('some thing wrong', response);
                 });
         };
-
-
+//------------------Edit Office---------------------------------------------------
         $scope.patch = function (uploadUrl, data) {
-
-            if (typeof data.photo !== 'string') {
+            console.log('changed------', data);
+            //if (typeof data.photo !== 'string') {
+            if(data.image){
+                console.log('no string------', data);
                 let fd = new FormData();
                 for (let key in data) {
-                    if(key !== 'financial') fd.append(key, data[key])
+                    if(key !== 'financial' && key !== 'profit') fd.append(key, data[key])
+
                 }
-                // fd.append('financial', 4);
-                // fd.append('financial', 4);
-                // fd.append('financial', 4);
-                // console.log('financial-------', data.financial);
-
-                $http.patch(uploadUrl, fd, {
+                data.financial.forEach((item, i, arr) => {
+                    fd.append('financial[]', item);
+                });
+                data.profit.forEach((item, i, arr) => {
+                    fd.append('profit[]', item);
+                });
+            $http.patch(uploadUrl, fd, {
                     transformRequest: angular.identity,
-                    headers: {
-                        'Content-Type': undefined
-
-                    }
+                    headers: {'Content-Type': undefined }
                 })
                     .then(function (response) {
                         if (response.data) {
                             data.photo = response.data.editedPerson.photo;
+                            data.image = null;
                         }
                     }, function (response) {
                         console.log('response.status', response.status);
@@ -128,14 +132,10 @@ app.component('offices',{
                     });
             }
         };
-        //------------------Graph-----------------------------------
+ //------------------Chart Library-----------------------------------
         $scope.graphics = function () {
             $scope.data = [];
-            $scope.labels = [
-                "January", "February", "March",
-                "April", "May", "June",
-                "July", "August", "September",
-                "October", "November", "December"];
+
             $scope.series = ['Sales', 'Profit Margin %'];
 
             if ($scope.offices) {
@@ -181,15 +181,55 @@ app.component('offices',{
                 }
             };
         };
+
+
+        $scope.pieGraphics = function () {
+            $scope.pieOptions = {
+                maintainAspectRatio: true,
+                responsive: true,
+                legend: {
+                    display: true
+                }
+
+            };
+
+            $scope.pieLabels = [
+                $scope.offices[0].city,
+                $scope.offices[1].city,
+                $scope.offices[2].city,
+                $scope.offices[3].city,
+                $scope.offices[4].city,
+                $scope.offices[5].city,
+                $scope.offices[6].city
+            ];
+
+        };
+        $scope.pieData = [];
+        $scope.sumSales = function () {
+
+            $scope.offices.forEach((item, index, arr) => {
+            let sumSales = 0;
+                item.financial.forEach((item, index, arr) => {
+                    sumSales = sumSales + Number(item);
+                });
+                $scope.pieData.push(sumSales);
+            })
+        };
 //------------------------------------------------------
 $scope.activatedOffice = 0;
-     $scope.activate = (item, index) => {
+     $scope.activate = (index) => {
+         $scope.colors = [];
          $scope.activatedOffice = index;
+         $scope.colors =$scope.defaultColors.slice(0);
+         $scope.colors[index] = '#26ff29';
          $scope.graphics();
+         $scope.pieGraphics();
      }
+//------End of Component------------------------------------------
    }
-});
 
+});
+//----------Upload Directive---------------------------------------------------
 app.directive('fileModel', ['$parse', function ($parse) {
 
     return {
@@ -207,3 +247,4 @@ app.directive('fileModel', ['$parse', function ($parse) {
         }
     }
 }]);
+//---------------------------------------------------------------------------------

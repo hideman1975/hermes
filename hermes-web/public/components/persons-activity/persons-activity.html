@@ -4,10 +4,17 @@
     <thead>
     <tr>
         <th class="reporting-table-header">Index</th>
-        <th class="reporting-table-header">Имя</th>
+        <th class="reporting-table-header">Name</th>
         <th class="reporting-table-header">Activity</th>
-        <th class="reporting-table-header">Timer</th>
-        <th class="reporting-table-header">Interaction</th>
+        <th class="reporting-table-header">Interaction timer</th>
+        <th class="reporting-table-header">
+            <md-input-container>
+                <md-select class="searchByChannel" ng-model="filter.office" ng-change="onSearchInputChanged()" title="Search by office" data-toggle="tooltip" data-placement="top" tooltip>
+                    <md-option ng-value="undefined">{{'All Offices'}}</md-option>
+                    <md-option ng-repeat="office in offices" ng-value="office">{{ office.city }}</md-option>
+                </md-select>
+            </md-input-container>
+        </th>
 
     </tr>
     </thead>
@@ -16,15 +23,19 @@
     <tr class="reporting-table-row" ng-repeat="item in persons"
         ng-class="{'active' : (item.interaction == true), 'passive' : (item.interaction == false) }" >
         <form>
-            <td class="reporting-table-cells " style="text-align: center">{{$index}}</td>
+            <td class="reporting-table-cells " style="text-align: center;">{{$index+1}}</td>
             <td class="reporting-table-cells ">{{item.name}}</td>
             <td class="reporting-table-cells " style="text-align: center">{{item.interaction}}</td>
             <td class="reporting-table-cells " style="text-align: center"><i ng-class="item.type" > <span style="margin-left: 10px">{{item.timer}}</span>  </i></td>
             <td class="reporting-table-cells " style="text-align: center">
-
+                <span style="margin-left: 10px">{{item.office.city}}</span>
              </td>
        </form>
     </tr>
 
     </tbody>
 </table>
+<div class="activity-footer">
+    <p><h3>current interaction - 23 manager available - 17</h3></p>
+
+</div>

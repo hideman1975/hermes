@@ -17,10 +17,24 @@ app.component('personsActivity',{
                 });
         };
 
+        //-------------------------------------------------------------------------
+        const getOffices = function () {
+            $http.get('/offices')
+                .success(function (result) {
+                    $scope.offices = result;
+                    console.log('offices now this', result);
+                })
+                .error(function (result) {
+                    console.log('error');
+                });
+        };
+        //------------------------------------------------------------------------
+
         this.$onInit = function () {
             console.log('onInit');
             // $scope.currentNavItem = 'home';
             getActivity();
+            getOffices();
             stop = $interval(getActivity, 1000);
         };
 

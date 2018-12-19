@@ -1,18 +1,8 @@
-<i class="icon-chevron-up"></i> icon-chevron-up
-<i class="icon-trash"></i> icon-trash
-<i class="icon-food"></i> icon-food
-<i class="icon-ok-circle"></i> icon-ok-circle
-<i class="icon-cut"></i> icon-cut
-<i class="icon-remove-sign"></i> icon-remove-sign
 <table class='reporting_table'>
     <caption>Human Resources Department</caption>
     <thead>
     <tr>
-        <th>
-            <a class="table-cell-ellipsis" ng-click="orderBy()" title="My Tooltip!" data-toggle="tooltip" data-placement="top" tooltip>Position
-                <md-icon  ng-class="{'icon-chevron-up' : (reverse === 'asc'), 'icon-chevron-down' : (reverse === 'desc') }"></md-icon>
-            </a>
-        </th>
+        <th>#</th>
         <th>
             <md-button class="md-raised" ng-click="sortBy('position')" title="Sort by position">Position</md-button>
             <span class="sortorder" ng-show="propertyName === 'position'" ng-class="{reverse: reverse}"></span>
@@ -76,28 +66,32 @@
                 <div style="padding-left: 10px;">
                         <span ng-hide="item.editMode">
                             <!--<input class="actions" type="button" value="Dismiss" ng-click="delete(item)"/>-->
-                            <md-button class="md-fab action-button"  ng-click="delete(item)" title="Delete person">
+                            <md-button class="md-fab action-button"  ng-click="delete(item)">
+                                <md-tooltip md-direction="top">Delete</md-tooltip>
                                 <i class="icon-trash icon-large action-icon"></i>
                             </md-button>
                         </span>
                     <span ng-hide="item.editMode">
                         <!--<input style="float: left" type="button" value="Edit" ng-click="edit(item)"/>-->
-                        <md-button class="md-fab action-button"  ng-click="edit(item)" title="Edit person">
+                        <md-button class="md-fab action-button"  ng-click="edit(item)" >
+                            <md-tooltip md-direction="top">Change</md-tooltip>
                             <i class="icon-cut icon-large action-icon"></i>
                         </md-button>
                     </span>
                     <span ng-show="item.editMode">
-                        <md-button type="submit" class="md-fab action-button" ng-click="save(item)" title="Save">
-                             <i class="icon-thumbs-up-alt icon-large action-icon"></i>
+                        <md-button type="submit" class="md-fab action-button" ng-click="save(item)" >
+                            <md-tooltip md-direction="top">Save</md-tooltip>
+                            <i class="icon-thumbs-up-alt icon-large action-icon"></i>
                         </md-button>
                     </span>
                 </div>
             </td>
         </form>
     </tr>
-    <tr>
-        <!--<form ng-controller='uploader'>-->
+    <tr class="newObject">
+
         <form>
+            <td ><span style="font-size: 18px">New Employee</span></td>
             <td>
                 <md-input-container>
                     <input type="text" id="position" ng-model="customer.position" placeholder="Position">
@@ -115,15 +109,18 @@
                 </md-input-container>
             </td>
             <td>
+                <md-input-container class="upload">
+                    <input  type="file" id="photo" file-model="customer.photo">
+                    <md-tooltip md-direction="top">Chose Photo</md-tooltip>
+                </md-input-container>
+            </td>
+            <td>
                 <md-select ng-model="customer.office">
+                    <md-option ng-value="undefined" disabled>Chose the Office</md-option>
                     <md-option ng-value="office" ng-repeat="office in offices">{{ office.city }}</md-option>
                 </md-select>
             </td>
-            <td>
-                <md-input-container>
-                    <input type="file" id="photo" file-model="customer.photo">
-                </md-input-container>
-            </td>
+
             <td><button type="submit" class="md-button md-primary" ng-click="create()">Save Person</button></td>
 
 

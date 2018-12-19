@@ -4,6 +4,7 @@
   overflow: hidden;
   position: relative;
   border: dotted 1px grey;
+  margin-top: 10px;
 }
 
 .reporting_table th{
@@ -50,6 +51,7 @@
 
 .reporting_table th:focus {
   outline: 0;
+
 }
 
 .image{
@@ -57,7 +59,7 @@
 }
 
 .active{
-  background-color: rgba(174, 255, 47, 0.9);
+  background-color: rgba(79, 192, 255, 0.9);
 }
 
 .passive{
@@ -76,7 +78,13 @@ i {
 }
 
 .md-padding {
-  background-color: #66f8ff;
+  background-color: #c9c1c4;
+  padding: 0;
+}
+.activity-footer {
+  background-color: #c9c1c4;
+  height: 40px;
+  padding: 0;
 }
 
 .sortorder:after {
@@ -98,5 +106,30 @@ i {
 
 .action-icon {
   color: #1A1A1A !important;
+}
+
+md-tooltip {
+  background-color: #c53e11 !important;
+  font-size: 14px !important;
+}
+
+.upload {
+  margin: 0px 0px 26px !important;
+   }
+
+md-input-container input {
+  height: 34px !important;
+}
+
+td md-select {
+  margin: 0px 0 26px;
+}
+
+td button {
+  margin: 0px 0 26px !important;
+}
+
+.newObject {
+  background-color: rgba(102,248,255,0.61)
 }
 
