@@ -4,27 +4,35 @@
     <tr>
         <th>#</th>
         <th>
-            <md-button class="md-raised" ng-click="sortBy('position')" title="Sort by position">Position</md-button>
+            <md-button class="md-raised" ng-click="sortBy('position')" >Position
+                <md-tooltip md-direction="top">Sort by position</md-tooltip>
+            </md-button>
             <span class="sortorder" ng-show="propertyName === 'position'" ng-class="{reverse: reverse}"></span>
          </th>
         <th>
-            <md-button class="md-raised" ng-click="sortBy('name')" title="Sort by name">Name</md-button>
+            <md-button class="md-raised" ng-click="sortBy('name')">Name
+                <md-tooltip md-direction="top">Sort by name</md-tooltip>
+            </md-button>
             <span class="sortorder" ng-show="propertyName === 'name'" ng-class="{reverse: reverse}"></span>
         </th>
         <th>
-            <md-button class="md-raised" ng-click="sortBy('age')" title="Sort by age">Age</md-button>
+            <md-button class="md-raised" ng-click="sortBy('age')">Age
+                <md-tooltip md-direction="top">Sort by age</md-tooltip>
+            </md-button>
             <span class="sortorder" ng-show="propertyName === 'age'" ng-class="{reverse: reverse}"></span>
         </th>
         <th>Photo</th>
         <th>
             <md-input-container>
-                <md-select class="searchByChannel" ng-model="filter.office" ng-change="onSearchInputChanged()" title="Search by office" data-toggle="tooltip" data-placement="top" tooltip>
+                <md-tooltip md-direction="top">Chose Office</md-tooltip>
+                <md-select class="searchByChannel" ng-model="filter.office" ng-change="onSearchInputChanged()">
                     <md-option ng-value="undefined">{{'All Offices'}}</md-option>
                     <md-option ng-repeat="office in offices" ng-value="office">{{ office.city }}</md-option>
                 </md-select>
             </md-input-container>
         </th>
-       <th>Action</th>
+       <th>Action
+           <md-tooltip md-direction="top">Edit, Delete</md-tooltip></th>
     </tr>
 
     </thead>

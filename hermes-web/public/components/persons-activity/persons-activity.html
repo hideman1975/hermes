@@ -4,12 +4,18 @@
     <thead>
     <tr>
         <th class="reporting-table-header">Index</th>
-        <th class="reporting-table-header">Name</th>
-        <th class="reporting-table-header">Activity</th>
+        <th class="reporting-table-header">
+            <md-button class="md-raised" ng-click="sortBy('name')">Name
+                <md-tooltip md-direction="top">Sort by name</md-tooltip>
+            </md-button>
+            <span class="sortorder" ng-show="propertyName === 'name'" ng-class="{reverse: reverse}"></span>
+        </th>
+        <th class="reporting-table-header">Position</th>
         <th class="reporting-table-header">Interaction timer</th>
         <th class="reporting-table-header">
             <md-input-container>
-                <md-select class="searchByChannel" ng-model="filter.office" ng-change="onSearchInputChanged()" title="Search by office" data-toggle="tooltip" data-placement="top" tooltip>
+                <md-tooltip md-direction="top">Chose Office</md-tooltip>
+                <md-select ng-model="filter.office" ng-change="onSearchInputChanged()"  data-toggle="tooltip" data-placement="top" tooltip>
                     <md-option ng-value="undefined">{{'All Offices'}}</md-option>
                     <md-option ng-repeat="office in offices" ng-value="office">{{ office.city }}</md-option>
                 </md-select>
@@ -20,13 +26,17 @@
     </thead>
 
     <tbody>
-    <tr class="reporting-table-row" ng-repeat="item in persons"
+
+    <tr class="reporting-table-row" ng-repeat="item in filteredPersons | orderBy:propertyName:reverse"
         ng-class="{'active' : (item.interaction == true), 'passive' : (item.interaction == false) }" >
         <form>
             <td class="reporting-table-cells " style="text-align: center;">{{$index+1}}</td>
             <td class="reporting-table-cells ">{{item.name}}</td>
-            <td class="reporting-table-cells " style="text-align: center">{{item.interaction}}</td>
-            <td class="reporting-table-cells " style="text-align: center"><i ng-class="item.type" > <span style="margin-left: 10px">{{item.timer}}</span>  </i></td>
+            <td class="reporting-table-cells " style="text-align: center">{{item.position}}</td>
+            <td class="reporting-table-cells " style="text-align: center"><i ng-class="item.type.class"  title={{item.type.toolTip}}>
+                <!--<md-tooltip md-direction="top">{{item.type.toolTip}}</md-tooltip>-->
+                <span style="margin-left: 10px">{{item.timer}}</span>  </i>
+            </td>
             <td class="reporting-table-cells " style="text-align: center">
                 <span style="margin-left: 10px">{{item.office.city}}</span>
              </td>
@@ -34,8 +44,6 @@
     </tr>
 
     </tbody>
-</table>
-<div class="activity-footer">
-    <p><h3>current interaction - 23 manager available - 17</h3></p>
 
-</div>
+</table>
+    <div class="footer"><h3>current interaction - 23 manager available - 17</h3></div>

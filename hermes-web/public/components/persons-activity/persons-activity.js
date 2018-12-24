@@ -10,7 +10,9 @@ app.component('personsActivity',{
                     $scope.persons.forEach((item, i, products) =>{
                         item.timer = fmtMSS(item.timer);
                     });
-                    console.log('$scope.persons', result);
+                    $scope.filteredPersons = $scope.persons;
+                    $scope.onSearchInputChanged();
+                    // console.log('$scope.persons', result);
                 })
                 .error(function (result) {
                     console.log('error', result);
@@ -22,7 +24,7 @@ app.component('personsActivity',{
             $http.get('/offices')
                 .success(function (result) {
                     $scope.offices = result;
-                    console.log('offices now this', result);
+                    //console.log('offices now this', result);
                 })
                 .error(function (result) {
                     console.log('error');
@@ -31,7 +33,10 @@ app.component('personsActivity',{
         //------------------------------------------------------------------------
 
         this.$onInit = function () {
-            console.log('onInit');
+            $scope.filter = {
+                office: undefined
+            };
+            //console.log('onInit');
             // $scope.currentNavItem = 'home';
             getActivity();
             getOffices();
@@ -45,8 +50,30 @@ app.component('personsActivity',{
         this.$onDestroy = function () {
             $interval.cancel(stop);
             stop = undefined;
-        }
-     }
+        };
+
+   //--------Filter-Sorter---------------------------
+        $scope.onSearchInputChanged = () => {
+            //console.log('onSearchInputChanged');
+            if($scope.filter.office) {
+                $scope.filteredPersons = $scope.persons.filter(function (item) {
+                    return item.office.city === $scope.filter.office.city;
+                });
+                //$scope.filtered = true;
+            } else {
+                $scope.filteredPersons = $scope.persons;
+            }
+        };
+   //------------------------------------------------
+        $scope.propertyName = '';
+        $scope.reverse = true;
+
+        $scope.sortBy = function(propertyName) {
+            console.log('orderBy', propertyName);
+            $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
+            $scope.propertyName = propertyName;
+         };
+    }
 });
 
 function fmtMSS(s){return(s-(s%=60))/60+(9<s?':':':0')+s}

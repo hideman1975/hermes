@@ -5,6 +5,7 @@
   position: relative;
   border: dotted 1px grey;
   margin-top: 10px;
+  margin-bottom: 60px;
 }
 
 .reporting_table th{
@@ -59,13 +60,16 @@
 }
 
 .active{
-  background-color: rgba(79, 192, 255, 0.9);
+  background-color: #49c6ff
 }
 
 .passive{
   background-color: #e7e7e7;
 }
 
+md-toolbar {
+  background-color: white !important;
+}
 
 
 md-content .ext-content {
@@ -79,11 +83,6 @@ i {
 
 .md-padding {
   background-color: #c9c1c4;
-  padding: 0;
-}
-.activity-footer {
-  background-color: #c9c1c4;
-  height: 40px;
   padding: 0;
 }
 
@@ -130,6 +129,23 @@ td button {
 }
 
 .newObject {
-  background-color: rgba(102,248,255,0.61)
+  background-color: #49c6ff
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  z-index: 60;
+  box-sizing: border-box;
+  align-items: center;
+  height: 48px;
+  max-height: 48px;
+  background-color: #DCE1E6;
+  color: #635f5f;
+  border-top: 1px solid rgba(48, 64, 80, 0.4);
+  position: fixed;
+  left: 0; bottom: 0;
+  padding: 10px;
+  width: 100%;
 }
 

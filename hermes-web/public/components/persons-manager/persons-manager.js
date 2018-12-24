@@ -138,40 +138,24 @@ app.component('personsManager',{
                     });
             }
         };
-        $scope.reverse = 'desc';
 
-        $scope.orderBy = () => {
-            console.log('Order By', $scope.reverse);
-            if($scope.reverse === 'desc'){
-                console.log('if asc');
-                $scope.reverse = 'asc';
-            }
-            else {
-                console.log('if desc');
-                $scope.reverse = 'desc';
-            }
-        };
-
-//$scope.filtered = false;
         $scope.onSearchInputChanged = () => {
             if($scope.filter.office) {
                 $scope.filteredPersons = $scope.artists.filter(function (item) {
                     return item.office.city === $scope.filter.office.city;
                 });
-               //$scope.filtered = true;
             } else {
                $scope.filteredPersons = $scope.artists;
             }
-        }
+        };
 
-        $scope.propertyName = 'age';
+        $scope.propertyName = '';
         $scope.reverse = true;
-        // $scope.friends = friends;
 
         $scope.sortBy = function(propertyName) {
             $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
             $scope.propertyName = propertyName;
-            //$scope.orderBy();
+
         };
     }
 });
@@ -193,19 +177,3 @@ app.directive('fileModel', ['$parse', function ($parse) {
         }
     }
 }]);
-
-// app.directive('tooltip', function(){
-//     return {
-//         restrict: 'A',
-//         link: function(scope, element, attrs){
-//             $(element).hover(function(){
-//                 console.log('Hover')
-//                 // on mouseenter
-//                 $(element).tooltip('show');
-//             }, function(){
-//                 // on mouseleave
-//                 $(element).tooltip('hide');
-//             });
-//         }
-//     };
-// });

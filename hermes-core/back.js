@@ -24,8 +24,9 @@ let refreshData = function() {
         products.forEach((item, i, products) =>{
             item.interaction = false;
             item.timer = 0;
-            item.type = "icon-coffee";
+            item.type = {class: "icon-coffee icon-large", toolTip: "AVAILABLE"};
         })
+
     });
 };
 
@@ -36,18 +37,27 @@ let getProducts = function() {
 // -----------Interactions---------------------------------------------
 let startInteraction = (timeInteraction) => {
 
-    let newTime = getRandomInt(4000, 10000);
+    let newTime = getRandomInt(4000, 10000); // next interaction timer
+    let agent = getRandomInt(0, products.length); // random manager
+    let typeInt = getRandomInt(0, typeInteraction.length-1); //random interaction type
     let interactionTime = getRandomInt(100000, 240000);
-    let agent = getRandomInt(0, products.length);
-    let typeInt = getRandomInt(0, typeInteraction.length-1);
 
-    if(products[agent] && !products[agent].interaction) {
+    if(typeInteraction[typeInt].class === "icon-truck icon-large" &&
+            howMuch("icon-truck icon-large") > 3) {
+        console.log( 'icon-truck too much');
+        setTimeout(startInteraction, timeInteraction, newTime);
+    } else  if(products[agent] && !products[agent].interaction) {
         products[agent].interaction = true;
-        console.log( 'typeInteraction[typeInt]',  typeInteraction[typeInt]);
+        //console.log( 'typeInteraction[typeInt]',  typeInteraction[typeInt]);
+        interactionTime =  interactionTime + typeInteraction[typeInt].timeAdd; //interaction duration
+        //console.log( 'interactionTime',  interactionTime);
         products[agent].type = typeInteraction[typeInt];
-       }
-    setTimeout(startInteraction, timeInteraction, newTime);
-    setTimeout(stopInteraction,  interactionTime, agent);
+        setTimeout(startInteraction, timeInteraction, newTime);
+        setTimeout(stopInteraction,  interactionTime, agent);
+       } else {
+        setTimeout(startInteraction, timeInteraction, newTime);
+
+    }
 
 };
 //---------------------------------------------------------------------
@@ -55,7 +65,7 @@ let stopInteraction = (agent) => {
     if(products[agent]) {
         products[agent].interaction = false;
         products[agent].timer = 0;
-        products[agent].type = "icon-coffee icon-large";
+        products[agent].type = {class: "icon-coffee icon-large", toolTip: "AVAILABLE", timeAdd: 1000};
     }
 };
 
@@ -65,13 +75,22 @@ tikTak = () => {
     })
 };
 
+howMuch = (interactionType) => {
+    let count = 0;
+    products.forEach((item, index, array) => {
+        if(item.type.class ===  interactionType) count++;
+    });
+    console.log( 'how much works', count);
+    return count
+};
+
 let typeInteraction =[
-    "icon-headphones icon-large",
-    "icon-comment-alt icon-large",
-    "icon-truck icon-large",
-    "icon-plane icon-large",
-    "icon-food icon-large",
-    "icon-group icon-large"
+    {class: "icon-headphones icon-large", toolTip: "PHONE CONVERSATION", timeAdd: 1000},
+    {class: "icon-comment-alt icon-large", toolTip: "CHAT CONVERSATION", timeAdd: 1000},
+    {class: "icon-truck icon-large", toolTip: "DEPARTURE TO THE CUSTOMER" , timeAdd: 1000 * 60 * 60},
+    {class: "icon-facetime-video icon-large", toolTip: "VIDEO CHAT" , timeAdd: 1000},
+    {class: "icon-food icon-large", toolTip: "MEAL",  timeAdd: 1000 * 60 * 10},
+    {class: "icon-group icon-large", toolTip: "MEETING", timeAdd: 1000 * 60 * 20}
 ];
 
 module.exports.timer = timer;

@@ -221,7 +221,7 @@ $scope.activatedOffice = 0;
          $scope.colors = [];
          $scope.activatedOffice = index;
          $scope.colors =$scope.defaultColors.slice(0);
-         $scope.colors[index] = '#26ff29';
+         $scope.colors[index] = '#49c6ff';
          $scope.graphics();
          $scope.pieGraphics();
      }
