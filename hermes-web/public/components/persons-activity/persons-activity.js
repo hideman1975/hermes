@@ -3,12 +3,16 @@ app.component('personsActivity',{
     templateUrl: 'components/persons-activity/persons-activity.html',
     controller: function($scope, $http, $interval) {
  //-------------------------------------------------------------------------
+
         const getActivity = function () {
             $http.get('/orders/status/st')
                 .success(function (result) {
+                    $scope.interaction = 0;
                     $scope.persons = result;
                     $scope.persons.forEach((item, i, products) =>{
+
                         item.timer = fmtMSS(item.timer);
+                        if (item.interaction) $scope.interaction++;
                     });
                     $scope.filteredPersons = $scope.persons;
                     $scope.onSearchInputChanged();
