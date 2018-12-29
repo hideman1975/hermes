@@ -88,7 +88,8 @@ router.post('/', upload.single('photo'), (req, res, next) => {
             person.save()
                 .then(result => {
                     console.log('person saved successfully');
-                    back.refreshData();
+                    //back.refreshData();
+                    back.addSaved(person);
                     res.status(201).json({
                         message: 'Handling POST request to /persons',
                         createdPerson: person
@@ -137,7 +138,7 @@ router.delete('/:personId', (req, res, next) => {
     Person.remove({_id: id }).exec().then(doc =>{
         // console.log("From database", doc);
         if(doc){
-            back.refreshData();
+            //back.refreshData();
             res.status(200).json(doc);
         }else {
             res.status(404).json({message: 'No valid entry found for provided Id'})
@@ -183,7 +184,7 @@ router.patch('/:personId', upload.single('photo'), (req, res, next) => {
     })
         .exec()
         .then(function () {
-            back.refreshData();
+            //back.refreshData();
             res.status(200).json({
                 message: 'Handling PATCH by ID=' + id + ' request to /persons',
                 editedPerson: person

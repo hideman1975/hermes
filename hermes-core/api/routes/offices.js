@@ -168,7 +168,7 @@ router.post('/', upload.single('photo'), (req, res, next) => {
     office.save()
         .then(result => {
             console.log('office saved successfully');
-            back.refreshData();
+            //back.refreshData();
             res.status(201).json({
                 message: 'Handling POST request to /offices',
                 createdOffice: office
@@ -213,7 +213,7 @@ router.delete('/:officeId', (req, res, next) => {
             Office.remove({_id: id }).exec().then(doc =>{
                 //console.log("Removed From database", office);
                 if(doc){
-                    back.refreshData();
+                    //back.refreshData();
                     gfs.remove({filename: office.photo, root: 'uploads'}, (err, gridStore) => {});
                     res.status(200).json(doc);
                 }else {
@@ -267,7 +267,7 @@ router.patch('/:id', upload.single('image'), (req, res, next) => {
     })
         .exec()
         .then(function () {
-            back.refreshData();
+            //back.refreshData();
             res.status(200).json({
                 message: 'Handling PATCH by ID=' + id + ' request to /offices',
                 editedPerson: office

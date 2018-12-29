@@ -30,6 +30,22 @@ let refreshData = function() {
     });
 };
 
+let addSaved = (person) =>{
+    request({
+        method: 'GET',
+        uri: 'http://localhost:3032/persons/' + person._id,
+        body: {'msg': 'secret'},
+        json: true
+    }, function (error, response, body) {
+        let newPerson = body;
+        newPerson.interaction = false;
+        newPerson.timer = 0;
+        newPerson.type = {class: "icon-coffee icon-large", toolTip: "AVAILABLE"};
+        products.push(body);
+
+    });
+};
+
 let getProducts = function() {
     return products;
 };
@@ -37,14 +53,15 @@ let getProducts = function() {
 // -----------Interactions---------------------------------------------
 let startInteraction = (timeInteraction) => {
 
-    let newTime = getRandomInt(4000, 10000); // next interaction timer
+    let newTime = getRandomInt(2000, 6000); // next interaction timer
     let agent = getRandomInt(0, products.length); // random manager
     let typeInt = getRandomInt(0, typeInteraction.length-1); //random interaction type
-    let interactionTime = getRandomInt(100000, 240000);
+    let interactionTime = getRandomInt(1000 * 60 * 2, 1000 * 60 * 7);
 
-    if(typeInteraction[typeInt].class === "icon-truck icon-large" &&
-            howMuch("icon-truck icon-large") > 3) {
-        console.log( 'icon-truck too much');
+    if(typeInteraction[typeInt].class === "icon-truck icon-large" && howMuch("icon-truck icon-large") > 3 ||
+        typeInteraction[typeInt].class === "icon-group icon-large" && howMuch("icon-group icon-large") > 3 ||
+        typeInteraction[typeInt].class === "icon-food icon-large" && howMuch("icon-food icon-large") > 3) {
+        console.log( ' too much longtime interaction');
         setTimeout(startInteraction, timeInteraction, newTime);
     } else  if(products[agent] && !products[agent].interaction) {
         products[agent].interaction = true;
@@ -89,10 +106,11 @@ let typeInteraction =[
     {class: "icon-comment-alt icon-large", toolTip: "CHAT CONVERSATION", timeAdd: 1000},
     {class: "icon-truck icon-large", toolTip: "DEPARTURE TO THE CUSTOMER" , timeAdd: 1000 * 60 * 60},
     {class: "icon-facetime-video icon-large", toolTip: "VIDEO CHAT" , timeAdd: 1000},
-    {class: "icon-food icon-large", toolTip: "MEAL",  timeAdd: 1000 * 60 * 10},
+    {class: "icon-food icon-large", toolTip: "BUSINESS LUNCH",  timeAdd: 1000 * 60 * 10},
     {class: "icon-group icon-large", toolTip: "MEETING", timeAdd: 1000 * 60 * 20}
 ];
 
 module.exports.timer = timer;
 module.exports.refreshData = refreshData;
+module.exports.addSaved = addSaved;
 module.exports.getProducts = getProducts;
